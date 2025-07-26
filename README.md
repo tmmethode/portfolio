@@ -1,29 +1,35 @@
-# IT Professional Portfolio
+# TMMETHODE Portfolio
 
-A modern, responsive portfolio website built with React.js and Tailwind CSS, showcasing the skills and experience of an IT professional specializing in DevOps, System Administration, Software Development, and Data Science.
+A modern, responsive portfolio website showcasing the skills and experience of **TMMETHODE** - Cloud Engineer & Systems Administrator. Built with React.js, Tailwind CSS, and featuring a beautiful dark/light theme toggle.
+
+## 🌟 Live Demo
+
+**Coming Soon** - Portfolio will be deployed and linked here
 
 ## 🚀 Features
 
-- **Modern Design**: Clean, professional design with smooth animations
-- **Responsive**: Fully responsive across all devices
-- **Interactive**: Smooth scrolling navigation and hover effects
-- **Comprehensive Sections**: Hero, About, Skills, Experience, Projects, and Contact
-- **Animations**: Framer Motion animations for enhanced user experience
-- **Accessible**: Built with accessibility in mind
+- **🌙 Dark/Light Theme**: Beautiful theme toggle with smooth transitions
+- **📱 Fully Responsive**: Optimized for all devices and screen sizes
+- **🎨 Modern Design**: Clean, professional design with smooth animations
+- **⚡ Fast Performance**: Optimized React components with lazy loading
+- **♿ Accessible**: Built with accessibility and SEO best practices
+- **📄 Policy Pages**: Privacy Policy, Terms of Service, and Cookie Policy
+- **🎯 Interactive Elements**: Smooth scrolling, hover effects, and animations
 
 ## 🛠️ Technologies Used
 
-- **React.js** - Frontend framework
+- **React.js** - Frontend framework with hooks
 - **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library
-- **React Icons** - Icon library
-- **React Intersection Observer** - Scroll animations
+- **Framer Motion** - Animation library for smooth transitions
+- **React Icons** - Comprehensive icon library
+- **React Router** - Client-side routing
+- **Context API** - Theme management and state management
 
 ## 📋 Prerequisites
 
 Before running this project, make sure you have the following installed:
 
-- Node.js (version 14 or higher)
+- Node.js (version 16 or higher)
 - npm or yarn
 
 ## 🚀 Getting Started
@@ -31,8 +37,8 @@ Before running this project, make sure you have the following installed:
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd it-professional-portfolio
+git clone https://github.com/tmmethode/portfolio.git
+cd portfolio
 ```
 
 ### 2. Install dependencies
@@ -60,75 +66,80 @@ npm run build
 ```
 src/
 ├── components/
-│   ├── Navbar.js          # Navigation component
-│   ├── Hero.js            # Hero section
-│   ├── About.js           # About section
-│   ├── Skills.js          # Skills section
-│   ├── Experience.js      # Experience timeline
-│   ├── Projects.js        # Projects showcase
-│   ├── Contact.js         # Contact form
-│   └── Footer.js          # Footer component
-├── App.js                 # Main App component
-├── index.js              # Entry point
-└── index.css             # Global styles
+│   ├── Navbar.js              # Navigation with mobile menu
+│   ├── Hero.js                # Hero section with animations
+│   ├── About.js               # About section
+│   ├── Skills.js              # Skills with progress bars
+│   ├── Experience.js          # Work experience timeline
+│   ├── Education.js           # Education section
+│   ├── Projects.js            # Projects showcase with filters
+│   ├── Contact.js             # Contact form
+│   ├── Footer.js              # Footer with links
+│   ├── ThemeToggle.js         # Dark/light theme toggle
+│   ├── PrivacyPolicy.js       # Privacy policy page
+│   ├── TermsOfService.js      # Terms of service page
+│   └── CookiePolicy.js        # Cookie policy page
+├── context/
+│   └── ThemeContext.js        # Theme context provider
+├── App.js                     # Main App component
+├── index.js                   # Entry point
+└── index.css                  # Global styles
 ```
 
-## 🎨 Customization
+## 🎨 Key Features
 
-### Personal Information
+### 🌙 Theme System
+- **Dark/Light Mode**: Toggle between themes with smooth transitions
+- **Persistent Theme**: Theme preference saved in localStorage
+- **System Preference**: Automatically detects system theme preference
 
-Update the personal information in the following files:
+### 📱 Responsive Design
+- **Mobile First**: Optimized for mobile devices
+- **Tablet Friendly**: Responsive layouts for tablets
+- **Desktop Optimized**: Enhanced experience on larger screens
 
-- `src/components/Hero.js` - Update name and description
-- `src/components/About.js` - Update personal details
-- `src/components/Contact.js` - Update contact information
+### 🎯 Core Sections
 
-### Skills and Experience
-
-- `src/components/Skills.js` - Modify skill categories and levels
-- `src/components/Experience.js` - Update work experience and education
-
-### Projects
-
-- `src/components/Projects.js` - Add your own projects and filter categories
-
-### Styling
-
-- `tailwind.config.js` - Customize colors and theme
-- `src/index.css` - Add custom CSS classes
-
-## 🎯 Key Sections
-
-### Hero Section
+#### Hero Section
 - Animated introduction with role tags
 - Call-to-action buttons
-- Social media links
+- Professional branding with icons
 
-### About Section
-- Personal information card
-- Professional background
-- Key strengths
+#### About Section
+- Personal information and background
+- Professional summary
+- Key strengths and expertise
 
-### Skills Section
-- Categorized skills with progress bars
+#### Skills Section
+- Categorized technical skills
+- Progress bars with animations
 - Tools and technologies grid
-- Soft skills and certifications
 
-### Experience Section
+#### Experience Section
 - Timeline of professional experience
-- Education and certifications
-- Key achievements for each role
+- Key achievements and responsibilities
+- Company information and dates
 
-### Projects Section
+#### Education Section
+- Academic background
+- Certifications and training
+- Educational achievements
+
+#### Projects Section
 - Filterable project showcase
-- Different categories (DevOps, Software Dev, Data Science, System Admin)
-- Project features and technologies
+- Multiple categories (Cloud, DevOps, Development)
+- Project features and technologies used
 
-### Contact Section
+#### Contact Section
 - Contact form with validation
-- Contact information
+- Professional contact information
 - Social media links
 - Availability status
+
+### 📄 Policy Pages
+- **Privacy Policy**: Data collection and usage information
+- **Terms of Service**: Legal terms and conditions
+- **Cookie Policy**: Cookie usage and management
 
 ## 🎨 Design Features
 
@@ -137,30 +148,66 @@ Update the personal information in the following files:
 - **Progress Bars**: Animated skill progress indicators
 - **Timeline Design**: Professional experience timeline
 - **Filterable Projects**: Interactive project filtering
-- **Responsive Grid**: Adaptive layouts for all screen sizes
+- **Mobile Menu**: Responsive navigation with hamburger menu
+- **Toast Notifications**: User-friendly notifications
+- **Smooth Scrolling**: Enhanced navigation experience
 
-## 🚀 Deployment
+## 🚀 Deployment Options
+
+### Vercel (Recommended)
+
+1. Install Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Deploy:
+```bash
+vercel
+```
 
 ### Netlify
 
-1. Build the project: `npm run build`
+1. Build the project:
+```bash
+npm run build
+```
+
 2. Deploy the `build` folder to Netlify
-
-### Vercel
-
-1. Connect your GitHub repository to Vercel
-2. Vercel will automatically build and deploy
 
 ### GitHub Pages
 
-1. Add `"homepage": "https://yourusername.github.io/repository-name"` to package.json
-2. Install gh-pages: `npm install --save-dev gh-pages`
+1. Add homepage to package.json:
+```json
+"homepage": "https://tmmethode.github.io/portfolio"
+```
+
+2. Install gh-pages:
+```bash
+npm install --save-dev gh-pages
+```
+
 3. Add scripts to package.json:
-   ```json
-   "predeploy": "npm run build",
-   "deploy": "gh-pages -d build"
-   ```
-4. Deploy: `npm run deploy`
+```json
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build"
+```
+
+4. Deploy:
+```bash
+npm run deploy
+```
+
+## 🎯 About TMMETHODE
+
+**Cloud Engineer & Systems Administrator** with expertise in:
+
+- ☁️ **Cloud Infrastructure**: AWS, Azure, Google Cloud
+- 🖥️ **Systems Administration**: Linux, Windows Server
+- 🔒 **Cybersecurity**: Security best practices and implementation
+- 💻 **Software Development**: Full-stack development
+- 🚀 **DevOps**: CI/CD, automation, containerization
+- 📊 **Data Management**: Database administration and optimization
 
 ## 📱 Browser Support
 
@@ -172,19 +219,29 @@ Update the personal information in the following files:
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 📞 Support
+## 📞 Contact
 
-If you have any questions or need help customizing the portfolio, feel free to reach out!
+- **Email**: info@tmmethode.com
+- **LinkedIn**: [TMMETHODE](https://www.linkedin.com/in/tmmethode)
+- **GitHub**: [@tmmethode](https://github.com/tmmethode)
+- **Location**: Kigali, Rwanda
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ using React.js and Tailwind CSS
+- Icons from [React Icons](https://react-icons.github.io/react-icons/)
+- Animations powered by [Framer Motion](https://www.framer.com/motion/)
 
 ---
 
-**Built with ❤️ using React.js and Tailwind CSS** 
+**TMMETHODE** - Cloud Engineer & Systems Administrator  
+*Building secure and scalable solutions for the future* ☁️🚀 
