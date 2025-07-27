@@ -13,8 +13,8 @@
     "dev:server": "cd server && npm run dev",
     "start": "node server/server.js",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "npm install --prefix client && npm run build --prefix client",
-    "build-server": "npm install --prefix server",
+    "build-client": "npm install --prefix client --production && GENERATE_SOURCEMAP=false npm run build --prefix client",
+    "build-server": "npm install --prefix server --production",
     "postinstall": "npm run build",
     "install:all": "npm install && cd client && npm install && cd ../server && npm install",
     "setup": "cd server && node setup.js"

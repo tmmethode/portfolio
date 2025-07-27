@@ -27,14 +27,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm ci
-        npm ci --prefix client
-        npm ci --prefix server
+        npm ci --production
+        npm ci --prefix client --production
+        npm ci --prefix server --production
 
     - name: Build application
-      run: npm run build
+      run: |
+        export GENERATE_SOURCEMAP=false
+        npm run build
       env:
         CI: true
+        NODE_ENV: production
 
     - name: Setup Google Cloud CLI
       uses: google-github-actions/setup-gcloud@v2
@@ -51,10 +54,11 @@ jobs:
           --region=${{ env.REGION }} \
           --platform=managed \
           --allow-unauthenticated \
-          --memory=512Mi \
+          --memory=1Gi \
           --cpu=1 \
           --max-instances=10 \
-          --set-env-vars=NODE_ENV=production \
+          --port=8080 \
+          --set-env-vars=NODE_ENV=production,PORT=8080 \
           --set-env-vars=MONGODB_URI=${{ secrets.MONGODB_URI }} \
           --set-env-vars=JWT_SECRET=${{ secrets.JWT_SECRET }} \
           --set-env-vars=RATE_LIMIT_WINDOW_MS=900000 \
