@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { DataProvider } from './context/DataContext';
 import { FiCode, FiServer, FiDatabase, FiCpu } from 'react-icons/fi';
@@ -16,6 +17,8 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import CookiePolicy from './components/CookiePolicy';
 import AdminPanel from './components/AdminPanel';
+import SEO from './components/SEO';
+import PerformanceOptimizer from './components/PerformanceOptimizer';
 
 // Loading Component with Theme Access
 const LoadingScreen = () => {
@@ -103,6 +106,13 @@ const AppContent = () => {
 
   return (
     <Router>
+      <PerformanceOptimizer />
+      <SEO 
+        title="Home"
+        description="TMMETHODE is a Cloud Engineer & Systems Administrator with expertise in AWS, Google Cloud, Azure, DevOps, cybersecurity, and software development. Based in Kigali, Rwanda."
+        keywords="cloud engineer, systems administrator, devops, aws, google cloud, azure, cybersecurity, software development, kigali, rwanda, IT professional"
+        url="/"
+      />
       <div className="min-h-screen bg-gradient-to-br from-secondary-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
         <Routes>
           <Route path="/" element={
@@ -120,9 +130,36 @@ const AppContent = () => {
               <Footer />
             </>
           } />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/privacy-policy" element={
+            <>
+              <SEO 
+                title="Privacy Policy"
+                description="Privacy Policy for TMMETHODE Portfolio - Learn how we protect your data and privacy."
+                url="/privacy-policy"
+              />
+              <PrivacyPolicy />
+            </>
+          } />
+          <Route path="/terms-of-service" element={
+            <>
+              <SEO 
+                title="Terms of Service"
+                description="Terms of Service for TMMETHODE Portfolio - Read our terms and conditions."
+                url="/terms-of-service"
+              />
+              <TermsOfService />
+            </>
+          } />
+          <Route path="/cookie-policy" element={
+            <>
+              <SEO 
+                title="Cookie Policy"
+                description="Cookie Policy for TMMETHODE Portfolio - Learn about our cookie usage."
+                url="/cookie-policy"
+              />
+              <CookiePolicy />
+            </>
+          } />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
@@ -132,11 +169,13 @@ const AppContent = () => {
 
 function App() {
   return (
-    <ThemeProvider>
-      <DataProvider>
-        <AppContent />
-      </DataProvider>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <DataProvider>
+          <AppContent />
+        </DataProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
