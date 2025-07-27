@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit3, FiTrash2, FiPlus, FiSave, FiX, FiEye, FiEyeOff } from 'react-icons/fi';
 import { useData } from '../context/DataContext';
-import { adminApiService } from '../services/adminApi';
+import adminApiService from '../services/adminApi';
 
 const AdminPanel = () => {
   const { 
