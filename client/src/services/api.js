@@ -1,5 +1,5 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' 
-  ? '/api'  // Use relative URL in production (same domain)
+  ? 'https://portfolio-1027061627518.us-central1.run.app/api'  // Use actual Cloud Run URL
   : 'http://localhost:5000/api');
 
 class ApiService {

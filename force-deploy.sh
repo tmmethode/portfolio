@@ -6,9 +6,9 @@
 echo "🔥 Force deploying to Google Cloud Run..."
 
 # Set environment variables
-export PROJECT_ID="tmmethode-portfolio"  # Replace with your actual project ID
+export PROJECT_ID="portfolio-1027061627518"  # Your actual project ID
 export REGION="us-central1"
-export SERVICE_NAME="tmmethode-portfolio"
+export SERVICE_NAME="portfolio"
 
 # Delete the existing service first (if it exists)
 echo "🗑️  Removing existing service..."
