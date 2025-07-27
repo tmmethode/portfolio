@@ -617,16 +617,29 @@ const insertFooterLinks = async () => {
 const createAdminUser = async () => {
   try {
     console.log('👨‍💼 Creating admin user...');
+    
+    // Check if admin user already exists
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      console.log('ℹ️  Admin user already exists');
+      return existingAdmin;
+    }
+
+    // Get admin credentials from environment variables
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@tmmethode.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'secure_admin_password_123';
+    
     const adminUser = new User({
       name: 'TMMETHODE Admin',
-      email: 'admin@tmmethode.com',
-      password: 'admin123456',
+      email: adminEmail,
+      password: adminPassword,
       role: 'admin'
     });
     await adminUser.save();
     console.log('✅ Admin user created successfully');
-    console.log('📧 Email: admin@tmmethode.com');
-    console.log('🔑 Password: admin123456');
+    console.log('📧 Email:', adminEmail);
+    console.log('🔑 Password: [Set via environment variable]');
+    console.log('⚠️  Please change the default password after first login');
     return adminUser;
   } catch (error) {
     if (error.code === 11000) {

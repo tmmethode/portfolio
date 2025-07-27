@@ -63,7 +63,7 @@ RATE_LIMIT_MAX=100
 # CORS Configuration
 FRONTEND_URL=http://localhost:3000
 
-# Admin Credentials (for initial setup)
+# Admin Credentials (for initial setup - change in production)
 ADMIN_EMAIL=admin@tmmethode.com
 ADMIN_PASSWORD=secure_admin_password_123
 ```
@@ -173,9 +173,9 @@ Authorization: Bearer <token>
 ```
 
 ### Admin Access
-Default admin credentials (change in production):
-- Email: `admin@tmmethode.com`
-- Password: `secure_admin_password_123`
+Admin credentials are stored in the database and can be configured via environment variables:
+- `ADMIN_EMAIL`: Admin email address
+- `ADMIN_PASSWORD`: Admin password (change in production)
 
 ## 📊 Database Models
 

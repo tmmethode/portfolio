@@ -50,7 +50,15 @@ tmmethode2/
    npm run setup
    ```
 
-5. **Start development servers**
+5. **Create admin user (optional)**
+   ```bash
+   cd server
+   npm run create-admin <email> <password>
+   # Or use environment variables:
+   # ADMIN_EMAIL=your-email@example.com ADMIN_PASSWORD=your-secure-password npm run create-admin
+   ```
+
+6. **Start development servers**
    ```bash
    npm run dev
    ```
@@ -90,6 +98,8 @@ This will start both the client (React) and server (Express) in development mode
 ### Server
 - `cd server && npm run dev` - Start server with nodemon
 - `cd server && npm start` - Start server in production mode
+- `cd server && npm run setup` - Set up database with sample data
+- `cd server && npm run create-admin` - Create or update admin user
 
 ## 🌐 API Endpoints
 
@@ -121,9 +131,10 @@ Access the admin panel at `/admin` to manage:
 - Portfolio projects
 - Social media links
 
-**Demo Credentials:**
-- Email: `admin@tmmethode.com`
-- Password: `admin123456`
+**Admin Access:**
+- Access the admin panel at `/admin`
+- Use credentials stored in the database
+- Contact the administrator for access credentials
 
 ## 🎨 Features
 

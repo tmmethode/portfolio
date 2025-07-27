@@ -81,15 +81,7 @@ const Navbar = () => {
                 {item.name}
               </motion.button>
             ))}
-            <motion.a
-              href="/admin"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-secondary-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 font-medium flex items-center"
-            >
-              <FiSettings className="mr-1" />
-              Admin
-            </motion.a>
+
             <ThemeToggle />
           </div>
 
@@ -125,14 +117,7 @@ const Navbar = () => {
                   {item.name}
                 </motion.button>
               ))}
-              <motion.a
-                href="/admin"
-                whileHover={{ x: 10 }}
-                className="block w-full text-left text-secondary-700 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 font-medium py-3 px-3 rounded-lg hover:bg-secondary-50 dark:hover:bg-gray-700/50 flex items-center"
-              >
-                <FiSettings className="mr-2" />
-                Admin
-              </motion.a>
+
             </div>
           </motion.div>
         )}

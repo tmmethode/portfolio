@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit3, FiTrash2, FiPlus, FiSave, FiX, FiEye, FiEyeOff } from 'react-icons/fi';
 import { useData } from '../context/DataContext';
+import { adminApiService } from '../services/adminApi';
 
 const AdminPanel = () => {
   const { 
@@ -36,18 +37,18 @@ const AdminPanel = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // For demo purposes, using a simple check
-      if (loginData.email === 'admin@tmmethode.com' && loginData.password === 'admin123456') {
-        const token = 'demo-token-' + Date.now();
+      const response = await adminApiService.login(loginData);
+      if (response.success) {
+        const token = response.data.token;
         setAuthToken(token);
         localStorage.setItem('adminToken', token);
         setIsAuthenticated(true);
       } else {
-        alert('Invalid credentials. Use admin@tmmethode.com / admin123456');
+        alert('Invalid credentials. Please check your email and password.');
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert('Login failed');
+      alert('Login failed. Please try again.');
     }
   };
 
@@ -460,9 +461,8 @@ const AdminPanel = () => {
           </form>
           
           <div className="mt-6 text-center text-sm text-gray-600">
-            <p>Demo credentials:</p>
-            <p>Email: admin@tmmethode.com</p>
-            <p>Password: admin123456</p>
+            <p>Please use your database credentials to login.</p>
+            <p>Contact the administrator if you need access.</p>
           </div>
         </div>
       </div>
