@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiMenu, FiX, FiCode, FiServer, FiDatabase, FiCpu } from 'react-icons/fi';
+import { FiMenu, FiX, FiCode, FiServer, FiDatabase, FiCpu, FiSettings } from 'react-icons/fi';
 import ThemeToggle from './ThemeToggle';
+import { useData } from '../context/DataContext';
 
 const Navbar = () => {
+  const { navigation, loading } = useData();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -16,7 +18,8 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
+  // Use navigation data from database, fallback to default if loading
+  const navItems = loading ? [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
@@ -24,7 +27,10 @@ const Navbar = () => {
     { name: 'Education', href: '#education' },
     { name: 'Projects', href: '#projects' },
     { name: 'Contact', href: '#contact' },
-  ];
+  ] : navigation.map(item => ({
+    name: item.label,
+    href: item.href
+  }));
 
   const scrollToSection = (href) => {
     const element = document.querySelector(href);
@@ -75,6 +81,15 @@ const Navbar = () => {
                 {item.name}
               </motion.button>
             ))}
+            <motion.a
+              href="/admin"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-secondary-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 font-medium flex items-center"
+            >
+              <FiSettings className="mr-1" />
+              Admin
+            </motion.a>
             <ThemeToggle />
           </div>
 
@@ -110,6 +125,14 @@ const Navbar = () => {
                   {item.name}
                 </motion.button>
               ))}
+              <motion.a
+                href="/admin"
+                whileHover={{ x: 10 }}
+                className="block w-full text-left text-secondary-700 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 font-medium py-3 px-3 rounded-lg hover:bg-secondary-50 dark:hover:bg-gray-700/50 flex items-center"
+              >
+                <FiSettings className="mr-2" />
+                Admin
+              </motion.a>
             </div>
           </motion.div>
         )}

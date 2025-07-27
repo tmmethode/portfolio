@@ -2,35 +2,29 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FiAward, FiCalendar, FiMapPin, FiExternalLink } from 'react-icons/fi';
+import { useData } from '../context/DataContext';
 
 const Education = () => {
+  const { education, loading, error } = useData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  const education = [
-    {
-      degree: 'Bachelor of Science in Information Systems',
-      school: 'University of Rwanda',
-      location: 'Kigali, Rwanda',
-      period: '2021 - 2025',
-      status: 'completed',
-      description: 'School of ICT, College of Science and Technology. Focus on information systems and technology management.',
-      courses: ['Information Systems', 'Database Management', 'System Analysis', 'Web Development', 'Network Security'],
-      type: 'undergraduate'
-    },
-    {
-      degree: 'Bachelor of Science in Computer Science',
-      school: 'University of the People',
-      location: 'Pasadena, CA, USA',
-      period: '2023 - Present',
-      status: 'studying',
-      description: 'Focus on software development and web programming. Participating in peer learning, academic discussions, and international tech competitions.',
-      courses: ['Software Development', 'Web Programming', 'Computer Science', 'Data Structures', 'Algorithms'],
-      type: 'undergraduate'
-    }
-  ];
+  // Transform education data from database
+  const educationArray = Array.isArray(education) ? education : [];
+  const educationData = educationArray.map(edu => ({
+    degree: edu.degree,
+    school: edu.institution,
+    location: edu.location,
+    period: edu.isCurrent 
+      ? `${new Date(edu.startDate).getFullYear()} - Present`
+      : `${new Date(edu.startDate).getFullYear()} - ${new Date(edu.endDate).getFullYear()}`,
+    status: edu.isCurrent ? 'studying' : 'completed',
+    description: edu.description,
+    courses: edu.courses || [],
+    type: edu.educationType || 'undergraduate'
+  }));
 
   const certifications = [
     {
@@ -76,6 +70,33 @@ const Education = () => {
     visible: { opacity: 1, y: 0 },
   };
 
+  // Show loading state
+  if (loading) {
+    return (
+      <section id="education" className="section-padding bg-white dark:bg-gray-900">
+        <div className="container-max">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-secondary-600 dark:text-gray-300 mt-4">Loading education...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section id="education" className="section-padding bg-white dark:bg-gray-900">
+        <div className="container-max">
+          <div className="text-center">
+            <p className="text-red-600 dark:text-red-400">Error loading education: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="education" className="section-padding bg-white dark:bg-gray-900">
       <div className="container-max">
@@ -99,7 +120,7 @@ const Education = () => {
 
           {/* Education Timeline */}
           <motion.div variants={itemVariants} className="space-y-8">
-            {education.map((edu, index) => (
+            {educationData.map((edu, index) => (
               <motion.div
                 key={edu.degree}
                 variants={itemVariants}

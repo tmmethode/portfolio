@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend } from 'react-icons/fi';
 import { FaXTwitter, FaFacebook, FaDiscord } from 'react-icons/fa6';
+import { useData } from '../context/DataContext';
 
 const Contact = () => {
+  const { profile, submitContact, loading } = useData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -18,6 +20,21 @@ const Contact = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section id="contact" className="section-padding bg-white dark:bg-gray-900">
+        <div className="container-max">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-secondary-600 dark:text-gray-300 mt-4">Loading contact information...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,43 +47,53 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitContact(formData);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      alert('Thank you for your message! I will get back to you soon.');
-    }, 2000);
+      setSubmitStatus({ type: 'success', message: 'Thank you for your message! I will get back to you soon.' });
+    } catch (error) {
+      setSubmitStatus({ type: 'error', message: error.message || 'Failed to send message. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  // Use profile data from database only
+  const email = profile?.email;
+  const phone = profile?.phone;
+  const location = profile?.location;
+  const socialLinks = profile?.socialLinks || {};
 
   const contactInfo = [
     {
       icon: FiMail,
       title: 'Email',
-      value: 'info@tmmethode.com',
-      link: 'mailto:info@tmmethode.com'
+      value: email,
+      link: email ? `mailto:${email}` : '#'
     },
     {
       icon: FiPhone,
       title: 'Phone',
-      value: '+250 788 934 674',
-      link: 'tel:+250788934674'
+      value: phone,
+      link: phone ? `tel:${phone.replace(/\s/g, '')}` : '#'
     },
     {
       icon: FiMapPin,
       title: 'Location',
-      value: 'Kigali, Rwanda',
+      value: location,
       link: '#'
     }
   ];
 
-  const socialLinks = [
-    { icon: FiGithub, href: 'https://github.com/tmmethode/', label: 'GitHub' },
-    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/tmmethode', label: 'LinkedIn' },
-    { icon: FaXTwitter, href: 'https://x.com/tmmethode250', label: 'X (Twitter)' },
-    { icon: FaFacebook, href: 'https://web.facebook.com/tmmethode', label: 'Facebook' },
-    { icon: FaDiscord, href: 'https://discord.com/users/1146515605730639974', label: 'Discord' },
-  ];
+  const socialLinksList = [
+    socialLinks.github && { icon: FiGithub, href: socialLinks.github, label: 'GitHub' },
+    socialLinks.linkedin && { icon: FiLinkedin, href: socialLinks.linkedin, label: 'LinkedIn' },
+    socialLinks.twitter && { icon: FaXTwitter, href: socialLinks.twitter, label: 'X (Twitter)' },
+    socialLinks.facebook && { icon: FaFacebook, href: socialLinks.facebook, label: 'Facebook' },
+    socialLinks.discord && { icon: FaDiscord, href: socialLinks.discord, label: 'Discord' },
+  ].filter(Boolean);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -176,6 +203,21 @@ const Contact = () => {
                   />
                 </div>
                 
+                {/* Status Message */}
+                {submitStatus && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`p-4 rounded-lg ${
+                      submitStatus.type === 'success' 
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800' 
+                        : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </motion.div>
+                )}
+
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
@@ -226,7 +268,7 @@ const Contact = () => {
               <div>
                 <h4 className="text-lg font-semibold text-secondary-900 dark:text-white mb-4">Follow Me</h4>
                 <div className="flex space-x-4">
-                  {socialLinks.map((social) => (
+                  {socialLinksList.map((social) => (
                     <motion.a
                       key={social.label}
                       href={social.href}

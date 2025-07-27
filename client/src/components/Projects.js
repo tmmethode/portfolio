@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FiGithub, FiExternalLink, FiServer, FiCode, FiDatabase, FiTrendingUp } from 'react-icons/fi';
+import { useData } from '../context/DataContext';
 
 const Projects = () => {
+  const { projects, loading, error } = useData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -11,98 +13,31 @@ const Projects = () => {
 
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const projects = [
-    {
-      title: 'Portfolio Website',
-      description: 'Personal web presence showcasing skills and experience, built with React.js and Tailwind CSS.',
-      category: 'software-dev',
-      image: '🌐',
-      technologies: ['React.js', 'Tailwind CSS', 'JavaScript', 'HTML/CSS', 'Git'],
-      github: '#',
-      live: 'http://tmmethode.com',
-      features: [
-        'Responsive design',
-        'Dark/Light theme',
-        'Modern UI/UX',
-        'Mobile optimized'
-      ]
-    },
-    {
-      title: 'Salesforce Enhancements',
-      description: 'Built formula fields, roll-up summaries, and basic Apex triggers to improve data visibility and automation.',
-      category: 'system-admin',
-      image: '☁️',
-      technologies: ['Salesforce', 'Apex', 'Formula Fields', 'Data Loader', 'Automation'],
-      github: '#',
-      live: '#',
-      features: [
-        'Custom formula fields',
-        'Roll-up summaries',
-        'Basic Apex triggers',
-        'Data visibility improvements'
-      ]
-    },
-    {
-      title: 'Python Dashboard (NISR Bootcamp)',
-      description: 'Visualized large statistical data for national-level insight during National Institute of Statistics of Rwanda bootcamp.',
-      category: 'data-science',
-      image: '📊',
-      technologies: ['Python', 'Data Analysis', 'Visualization', 'Statistics', 'Pandas'],
-      github: '#',
-      live: '#',
-      features: [
-        'Large dataset processing',
-        'Statistical analysis',
-        'Data visualization',
-        'National-level insights'
-      ]
-    },
-    {
-      title: 'Formyoula Automation',
-      description: 'Created mobile forms to automate field staff submissions and reporting for improved operational efficiency.',
-      category: 'software-dev',
-      image: '📱',
-      technologies: ['Formyoula', 'Mobile Forms', 'Automation', 'Reporting', 'Field Staff'],
-      github: '#',
-      live: '#',
-      features: [
-        'Mobile form creation',
-        'Field staff automation',
-        'Automated reporting',
-        'Operational efficiency'
-      ]
-    },
-    {
-      title: 'Data Cleaning & Training',
-      description: 'Performed comprehensive data cleaning and user training across districts in Rwanda for Salesforce environment.',
-      category: 'system-admin',
-      image: '🧹',
-      technologies: ['Data Cleaning', 'User Training', 'Salesforce', 'District Support', 'Compliance'],
-      github: '#',
-      live: '#',
-      features: [
-        'District-level data cleaning',
-        'Employee training programs',
-        'Data quality standards',
-        'Compliance protocols'
-      ]
-    },
-    {
-      title: 'Cloud Labs & Simulations',
-      description: 'Supported cloud labs and simulations in partnership with Huawei ICT Academy for educational purposes.',
-      category: 'devops',
-      image: '☁️',
-      technologies: ['Cloud Computing', 'Huawei ICT', 'Simulations', 'Education', 'AI/ML'],
-      github: '#',
-      live: '#',
-      features: [
-        'Cloud lab support',
-        'Educational simulations',
-        'Huawei ICT partnership',
-        'AI/ML applications'
-      ]
-    }
-  ];
+  // Transform projects data from database
+  const projectsArray = Array.isArray(projects) ? projects : [];
+  const projectsData = projectsArray.map(project => {
+    // Map database categories to filter IDs
+    const categoryMap = {
+      'Software Development': 'software-dev',
+      'System Administration': 'system-admin',
+      'Data Science': 'data-science',
+      'DevOps': 'devops',
+      'Cloud Infrastructure': 'devops',
+      'Cybersecurity': 'system-admin',
+      'Data Analysis': 'data-science'
+    };
+    
+    return {
+      title: project.title,
+      description: project.description,
+      category: categoryMap[project.category] || 'software-dev',
+      image: project.image || '🌐',
+      technologies: project.technologies || [],
+      github: project.githubUrl || '#',
+      live: project.liveUrl || '#',
+      features: project.features || []
+    };
+  });
 
   const filters = [
     { id: 'all', label: 'All Projects', icon: FiCode },
@@ -112,7 +47,7 @@ const Projects = () => {
     { id: 'system-admin', label: 'System Admin', icon: FiDatabase },
   ];
 
-  const filteredProjects = projects.filter(project => 
+  const filteredProjects = projectsData.filter(project => 
     activeFilter === 'all' || project.category === activeFilter
   );
 
@@ -140,6 +75,33 @@ const Projects = () => {
     };
     return colors[category] || 'primary';
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section id="projects" className="section-padding bg-secondary-50 dark:bg-gray-800">
+        <div className="container-max">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-secondary-600 dark:text-gray-300 mt-4">Loading projects...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section id="projects" className="section-padding bg-secondary-50 dark:bg-gray-800">
+        <div className="container-max">
+          <div className="text-center">
+            <p className="text-red-600 dark:text-red-400">Error loading projects: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" className="section-padding bg-secondary-50 dark:bg-gray-800">

@@ -2,64 +2,29 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FiCalendar, FiMapPin, FiAward } from 'react-icons/fi';
+import { useData } from '../context/DataContext';
 
 const Experience = () => {
+  const { experience, loading, error } = useData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  const experiences = [
-    {
-      title: 'Junior Systems Associate',
-      company: 'EarthEnable Rwanda Ltd',
-      location: 'Kigali, Rwanda',
-      period: 'Apr 2025 - Present',
-      description: 'Administer and maintain Salesforce environment, perform data cleaning, and provide district-level systems support.',
-      achievements: [
-        'Administer and maintain Salesforce environment including reports and dashboards',
-        'Travel to districts across Rwanda for on-site data cleaning and employee training',
-        'Lead detection and correction of data entry errors ensuring compliance',
-        'Support internal IT tools such as Formyoula, Kpay, and WordPress',
-        'Assist with systems integrations and basic Salesforce automation',
-        'Maintain system backups and uphold confidentiality protocols'
-      ],
-      technologies: ['Salesforce', 'Formyoula', 'Kpay', 'WordPress', 'Data Cleaning'],
-      type: 'current'
-    },
-    {
-      title: 'Systems Intern',
-      company: 'EarthEnable Rwanda Ltd',
-      location: 'Kigali, Rwanda',
-      period: 'Jul 2024 - Apr 2025',
-      description: 'Managed user accounts, resolved data errors, and created Salesforce reports to enhance efficiency.',
-      achievements: [
-        'Managed user accounts and resolved data errors across the organization',
-        'Created Salesforce reports to enhance operational efficiency',
-        'Conducted data cleaning and user training across Rwanda',
-        'Performed system troubleshooting and maintenance tasks',
-        'Supported on-site operations and field work'
-      ],
-      technologies: ['Salesforce', 'Data Cleaning', 'User Training', 'System Troubleshooting'],
-      type: 'past'
-    },
-    {
-      title: 'Student Developer / Research Assistant',
-      company: 'University of Rwanda Projects',
-      location: 'Kigali, Rwanda',
-      period: '2022 - Present',
-      description: 'Develop dashboards and automated reports using Python, participate in data science workshops and hackathons.',
-      achievements: [
-        'Developed dashboards and automated reports using Python and large datasets',
-        'Participated in bootcamp with National Institute of Statistics of Rwanda (NISR)',
-        'Participated in systems-related workshops and internal hackathons',
-        'Supported cloud labs and simulations in partnership with Huawei ICT Academy',
-        'Focused on data science and AI applications'
-      ],
-      technologies: ['Python', 'Data Analysis', 'Cloud Computing', 'AI/ML', 'Huawei ICT'],
-      type: 'current'
-    }
-  ];
+  // Transform experience data from database
+  const experienceArray = Array.isArray(experience) ? experience : [];
+  const experiences = experienceArray.map(exp => ({
+    title: exp.title,
+    company: exp.company,
+    location: exp.location,
+    period: exp.isCurrent 
+      ? `${new Date(exp.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - Present`
+      : `${new Date(exp.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${new Date(exp.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`,
+    description: exp.description,
+    achievements: exp.achievements || [],
+    technologies: exp.technologies || [],
+    type: exp.isCurrent ? 'current' : 'past'
+  }));
 
 
 
@@ -77,6 +42,33 @@ const Experience = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section id="experience" className="section-padding bg-white dark:bg-gray-900">
+        <div className="container-max">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-secondary-600 dark:text-gray-300 mt-4">Loading experience...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section id="experience" className="section-padding bg-white dark:bg-gray-900">
+        <div className="container-max">
+          <div className="text-center">
+            <p className="text-red-600 dark:text-red-400">Error loading experience: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="experience" className="section-padding bg-white dark:bg-gray-900">

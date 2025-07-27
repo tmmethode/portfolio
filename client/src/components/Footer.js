@@ -3,12 +3,28 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FiGithub, FiLinkedin, FiMail, FiHeart, FiCode, FiServer, FiDatabase, FiCpu } from 'react-icons/fi';
 import { FaXTwitter, FaFacebook, FaDiscord } from 'react-icons/fa6';
+import { useData } from '../context/DataContext';
 
 const Footer = () => {
+  const { profile, footerLinks, loading } = useData();
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
+  // Use profile data for social links and about
+  const name = profile?.name;
+  const about = profile?.about;
+  const email = profile?.email;
+  const socialLinks = [
+    profile?.socialLinks?.github && { icon: FiGithub, href: profile.socialLinks.github, label: 'GitHub' },
+    profile?.socialLinks?.linkedin && { icon: FiLinkedin, href: profile.socialLinks.linkedin, label: 'LinkedIn' },
+    profile?.socialLinks?.twitter && { icon: FaXTwitter, href: profile.socialLinks.twitter, label: 'X (Twitter)' },
+    profile?.socialLinks?.facebook && { icon: FaFacebook, href: profile.socialLinks.facebook, label: 'Facebook' },
+    profile?.socialLinks?.discord && { icon: FaDiscord, href: profile.socialLinks.discord, label: 'Discord' },
+    email && { icon: FiMail, href: `mailto:${email}`, label: 'Email' },
+  ].filter(Boolean);
+
+  // Use footer links from database, fallback to default if loading
+  const footerLinksData = loading ? {
     'Quick Links': [
       { name: 'Home', href: '#home' },
       { name: 'About', href: '#about' },
@@ -32,16 +48,14 @@ const Footer = () => {
       { name: 'Tutorials', href: null, external: false },
       { name: 'Open Source', href: null, external: false },
     ]
-  };
-
-  const socialLinks = [
-    { icon: FiGithub, href: 'https://github.com/tmmethode/', label: 'GitHub' },
-    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/tmmethode', label: 'LinkedIn' },
-    { icon: FaXTwitter, href: 'https://x.com/tmmethode250', label: 'X (Twitter)' },
-    { icon: FaFacebook, href: 'https://web.facebook.com/tmmethode', label: 'Facebook' },
-    { icon: FaDiscord, href: 'https://discord.com/users/1146515605730639974', label: 'Discord' },
-    { icon: FiMail, href: 'mailto:info@tmmethode.com', label: 'Email' },
-  ];
+  } : footerLinks.reduce((acc, section) => {
+    acc[section.title] = section.links.map(link => ({
+      name: link.name,
+      href: link.href,
+      external: link.isExternal
+    }));
+    return acc;
+  }, {});
 
   const scrollToSection = (href) => {
     // Handle links that don't have corresponding sections
@@ -91,8 +105,7 @@ const Footer = () => {
                 <span className="font-samsung font-bold text-lg sm:text-xl tracking-wider">TMMETHODE</span>
               </div>
               <p className="text-secondary-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                IT Professional with experience in cloud infrastructure, systems administration, 
-                cybersecurity, and software development. Let's build secure and scalable solutions together.
+                {about}
               </p>
               
               {/* Social Links */}
@@ -113,7 +126,7 @@ const Footer = () => {
             </div>
 
             {/* Footer Links */}
-            {Object.entries(footerLinks).map(([category, links]) => (
+            {Object.entries(footerLinksData).map(([category, links]) => (
               <div key={category}>
                 <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-white">{category}</h3>
                 <ul className="space-y-2">

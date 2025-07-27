@@ -2,20 +2,48 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FiUser, FiMapPin, FiMail, FiPhone, FiCalendar, FiAward } from 'react-icons/fi';
+import { useData } from '../context/DataContext';
 
 const About = () => {
+  const { profile, loading } = useData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
+  // Show loading state
+  if (loading) {
+    return (
+      <section id="about" className="section-padding bg-white dark:bg-gray-900">
+        <div className="container-max">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+            <p className="text-secondary-600 dark:text-gray-300">Loading about data...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Use profile data from database only
+  const name = profile?.name;
+  const location = profile?.location;
+  const email = profile?.email;
+  const phone = profile?.phone;
+  const summary = profile?.summary;
+  const whatIDo = profile?.whatIDo;
+  const myApproach = profile?.myApproach;
+  const keyStrengths = profile?.keyStrengths || [];
+  const experience = profile?.experience;
+  const certifications = profile?.certifications;
+
   const personalInfo = [
-    { icon: FiUser, label: 'Name', value: 'Methode TWIZEYIMANA' },
-    { icon: FiMapPin, label: 'Location', value: 'Kigali, Rwanda' },
-    { icon: FiMail, label: 'Email', value: 'info@tmmethode.com' },
-    { icon: FiPhone, label: 'Phone', value: '+250 788 934 674' },
-    { icon: FiCalendar, label: 'Experience', value: '3+ Years' },
-    { icon: FiAward, label: 'Certifications', value: 'Microsoft Office, Cisco, Huawei' },
+    { icon: FiUser, label: 'Name', value: name },
+    { icon: FiMapPin, label: 'Location', value: location },
+    { icon: FiMail, label: 'Email', value: email },
+    { icon: FiPhone, label: 'Phone', value: phone },
+    { icon: FiCalendar, label: 'Experience', value: experience },
+    { icon: FiAward, label: 'Certifications', value: certifications },
   ];
 
   const containerVariants = {
@@ -50,7 +78,7 @@ const About = () => {
                                     <div className="w-80 h-80 mx-auto bg-gradient-to-br from-primary-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-6xl mb-4">👨‍💻</div>
-                                            <p className="text-secondary-600 dark:text-gray-300 font-medium">Methode TWIZEYIMANA</p>
+                                            <p className="text-secondary-600 dark:text-gray-300 font-medium">{name}</p>
                           <p className="text-sm text-secondary-500 dark:text-gray-400">IT Professional</p>
                 </div>
               </div>
@@ -85,9 +113,7 @@ const About = () => {
                 About <span className="gradient-text">Me</span>
               </h2>
               <p className="text-lg text-secondary-600 dark:text-gray-300 leading-relaxed mb-6">
-                I'm an IT professional with experience in cloud infrastructure, systems administration, and cybersecurity. 
-                My journey includes working with multi-cloud environments, virtualization technologies, and developing 
-                skills in software development with Python, automation, and DevOps practices.
+                {summary}
               </p>
             </div>
 
@@ -95,18 +121,14 @@ const About = () => {
               <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-6">
                 <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-200 mb-3">What I Do</h3>
                 <p className="text-primary-800 dark:text-primary-300 leading-relaxed">
-                  I work with cloud infrastructure and virtualization technologies across multiple platforms (AWS, Google Cloud Platform, Azure, Huawei Cloud). 
-                  I manage systems administration tasks, implement cybersecurity measures, and develop automation scripts using Python. 
-                  I also support DevOps practices and maintain system security protocols.
+                  {whatIDo}
                 </p>
               </div>
 
               <div className="bg-secondary-50 dark:bg-gray-800 rounded-lg p-6">
                 <h3 className="text-xl font-semibold text-secondary-900 dark:text-white mb-3">My Approach</h3>
                 <p className="text-secondary-800 dark:text-gray-300 leading-relaxed">
-                  I believe in building secure, scalable, and efficient cloud solutions. Every system I work with 
-                  is designed with cybersecurity best practices, automation, and performance optimization in mind. 
-                  I focus on practical implementation and continuous learning in cloud and systems technologies.
+                  {myApproach}
                 </p>
               </div>
             </div>
@@ -115,16 +137,7 @@ const About = () => {
             <div>
               <h3 className="text-xl font-semibold text-secondary-900 dark:text-white mb-4">Key Strengths</h3>
               <div className="grid grid-cols-2 gap-4">
-                {[
-                  'Cloud Infrastructure',
-                  'Systems Administration',
-                  'Cybersecurity',
-                  'Virtualization',
-                  'Python Development',
-                  'DevOps Practices',
-                  'Network Security',
-                  'Automation'
-                ].map((strength, index) => (
+                {keyStrengths.map((strength, index) => (
                   <motion.div
                     key={strength}
                     variants={itemVariants}

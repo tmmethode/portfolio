@@ -1,247 +1,227 @@
 # TMMETHODE Portfolio
 
-A modern, responsive portfolio website showcasing the skills and experience of **TMMETHODE** - Cloud Engineer & Systems Administrator. Built with React.js, Tailwind CSS, and featuring a beautiful dark/light theme toggle.
+A modern, responsive portfolio website for a Cloud Engineer & Systems Administrator, built with React and Express.js.
 
-## 🌟 Live Demo
-
-**Coming Soon** - Portfolio will be deployed and linked here
-
-## 🚀 Features
-
-- **🌙 Dark/Light Theme**: Beautiful theme toggle with smooth transitions
-- **📱 Fully Responsive**: Optimized for all devices and screen sizes
-- **🎨 Modern Design**: Clean, professional design with smooth animations
-- **⚡ Fast Performance**: Optimized React components with lazy loading
-- **♿ Accessible**: Built with accessibility and SEO best practices
-- **📄 Policy Pages**: Privacy Policy, Terms of Service, and Cookie Policy
-- **🎯 Interactive Elements**: Smooth scrolling, hover effects, and animations
-
-## 🛠️ Technologies Used
-
-- **React.js** - Frontend framework with hooks
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library for smooth transitions
-- **React Icons** - Comprehensive icon library
-- **React Router** - Client-side routing
-- **Context API** - Theme management and state management
-
-## 📋 Prerequisites
-
-Before running this project, make sure you have the following installed:
-
-- Node.js (version 16 or higher)
-- npm or yarn
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/tmmethode/portfolio.git
-cd portfolio
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Start the development server
-
-```bash
-npm start
-```
-
-The application will open in your browser at `http://localhost:3000`.
-
-### 4. Build for production
-
-```bash
-npm run build
-```
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
-src/
-├── components/
-│   ├── Navbar.js              # Navigation with mobile menu
-│   ├── Hero.js                # Hero section with animations
-│   ├── About.js               # About section
-│   ├── Skills.js              # Skills with progress bars
-│   ├── Experience.js          # Work experience timeline
-│   ├── Education.js           # Education section
-│   ├── Projects.js            # Projects showcase with filters
-│   ├── Contact.js             # Contact form
-│   ├── Footer.js              # Footer with links
-│   ├── ThemeToggle.js         # Dark/light theme toggle
-│   ├── PrivacyPolicy.js       # Privacy policy page
-│   ├── TermsOfService.js      # Terms of service page
-│   └── CookiePolicy.js        # Cookie policy page
-├── context/
-│   └── ThemeContext.js        # Theme context provider
-├── App.js                     # Main App component
-├── index.js                   # Entry point
-└── index.css                  # Global styles
+tmmethode2/
+├── client/          # Frontend (React)
+│   ├── src/         # React source code
+│   ├── public/      # Static assets
+│   └── package.json # Frontend dependencies
+├── server/          # Backend (Express.js)
+│   ├── controllers/ # API controllers
+│   ├── models/      # MongoDB models
+│   ├── routes/      # API routes
+│   ├── middleware/  # Express middleware
+│   └── package.json # Backend dependencies
+└── package.json     # Root package.json (manages both)
 ```
 
-## 🎨 Key Features
+## 🚀 Quick Start
 
-### 🌙 Theme System
-- **Dark/Light Mode**: Toggle between themes with smooth transitions
-- **Persistent Theme**: Theme preference saved in localStorage
-- **System Preference**: Automatically detects system theme preference
+### Prerequisites
+- Node.js >= 16.0.0
+- MongoDB (local or cloud)
 
-### 📱 Responsive Design
-- **Mobile First**: Optimized for mobile devices
-- **Tablet Friendly**: Responsive layouts for tablets
-- **Desktop Optimized**: Enhanced experience on larger screens
+### Installation
 
-### 🎯 Core Sections
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd tmmethode2
+   ```
 
-#### Hero Section
-- Animated introduction with role tags
-- Call-to-action buttons
-- Professional branding with icons
+2. **Install all dependencies**
+   ```bash
+   npm run install:all
+   ```
 
-#### About Section
-- Personal information and background
-- Professional summary
-- Key strengths and expertise
+3. **Set up environment variables**
+   ```bash
+   cd server
+   cp .env.example .env
+   # Edit .env with your MongoDB URI and other settings
+   ```
 
-#### Skills Section
-- Categorized technical skills
-- Progress bars with animations
-- Tools and technologies grid
+4. **Set up the database**
+   ```bash
+   npm run setup
+   ```
 
-#### Experience Section
-- Timeline of professional experience
-- Key achievements and responsibilities
-- Company information and dates
+5. **Start development servers**
+   ```bash
+   npm run dev
+   ```
 
-#### Education Section
-- Academic background
-- Certifications and training
-- Educational achievements
+This will start both the client (React) and server (Express) in development mode.
 
-#### Projects Section
-- Filterable project showcase
-- Multiple categories (Cloud, DevOps, Development)
-- Project features and technologies used
+## 📁 Directory Structure
 
-#### Contact Section
-- Contact form with validation
-- Professional contact information
+### Client (Frontend)
+- **React 18** with modern hooks
+- **Framer Motion** for animations
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **React Icons** for icons
+
+### Server (Backend)
+- **Express.js** REST API
+- **MongoDB** with Mongoose ODM
+- **JWT** authentication
+- **Swagger** API documentation
+- **Rate limiting** and security middleware
+
+## 🛠️ Available Scripts
+
+### Root Level
+- `npm run dev` - Start both client and server in development mode
+- `npm run dev:client` - Start only the React client
+- `npm run dev:server` - Start only the Express server
+- `npm run build` - Build the React app for production
+- `npm run setup` - Set up the database with sample data
+
+### Client
+- `cd client && npm start` - Start React development server
+- `cd client && npm run build` - Build for production
+- `cd client && npm test` - Run tests
+
+### Server
+- `cd server && npm run dev` - Start server with nodemon
+- `cd server && npm start` - Start server in production mode
+
+## 🌐 API Endpoints
+
+### Public Endpoints
+- `GET /api/health` - Health check
+- `GET /api/profile` - Get profile data
+- `GET /api/skills` - Get skills list
+- `GET /api/experience` - Get experience list
+- `GET /api/education` - Get education list
+- `GET /api/projects` - Get projects list
+- `GET /api/navigation` - Get navigation data
+- `GET /api/footer-links` - Get footer links
+
+### Admin Endpoints (Protected)
+- `POST /api/auth/login` - Admin login
+- `PUT /api/profile` - Update profile
+- `POST /api/skills` - Create skill
+- `PUT /api/skills/:id` - Update skill
+- `DELETE /api/skills/:id` - Delete skill
+- Similar endpoints for experience, education, and projects
+
+## 🔐 Admin Panel
+
+Access the admin panel at `/admin` to manage:
+- Profile information
+- Skills and expertise
+- Work experience
+- Education background
+- Portfolio projects
 - Social media links
-- Availability status
 
-### 📄 Policy Pages
-- **Privacy Policy**: Data collection and usage information
-- **Terms of Service**: Legal terms and conditions
-- **Cookie Policy**: Cookie usage and management
+**Demo Credentials:**
+- Email: `admin@tmmethode.com`
+- Password: `admin123456`
 
-## 🎨 Design Features
+## 🎨 Features
 
-- **Gradient Text**: Custom gradient text effects
-- **Card Hover Effects**: Smooth hover animations
-- **Progress Bars**: Animated skill progress indicators
-- **Timeline Design**: Professional experience timeline
-- **Filterable Projects**: Interactive project filtering
-- **Mobile Menu**: Responsive navigation with hamburger menu
-- **Toast Notifications**: User-friendly notifications
-- **Smooth Scrolling**: Enhanced navigation experience
+### Frontend
+- ✅ Responsive design (mobile-first)
+- ✅ Dark/Light theme toggle
+- ✅ Smooth animations with Framer Motion
+- ✅ Dynamic content from database
+- ✅ Admin panel for content management
+- ✅ SEO optimized
+- ✅ Performance optimized
 
-## 🚀 Deployment Options
+### Backend
+- ✅ RESTful API design
+- ✅ MongoDB integration
+- ✅ JWT authentication
+- ✅ Rate limiting
+- ✅ CORS enabled
+- ✅ Error handling
+- ✅ API documentation with Swagger
+- ✅ Security middleware
 
-### Vercel (Recommended)
+## 🗄️ Database Schema
 
-1. Install Vercel CLI:
+### Profile
+- Personal information (name, title, email, location)
+- About section
+- Key strengths (array)
+- Social media links
+- Professional summary
+
+### Skills
+- Name, category, proficiency level
+- Description and icon
+- Order for display
+
+### Experience
+- Job title, company, location
+- Start/end dates
+- Description and achievements
+- Technologies used
+
+### Education
+- Degree, institution, location
+- Start/end dates
+- GPA and achievements
+- Courses taken
+
+### Projects
+- Title, description, category
+- Technologies and features
+- Live/GitHub URLs
+- Status and difficulty
+
+## 🚀 Deployment
+
+### Frontend (Client)
 ```bash
-npm install -g vercel
-```
-
-2. Deploy:
-```bash
-vercel
-```
-
-### Netlify
-
-1. Build the project:
-```bash
+cd client
 npm run build
+# Deploy the build folder to your hosting service
 ```
 
-2. Deploy the `build` folder to Netlify
-
-### GitHub Pages
-
-1. Add homepage to package.json:
-```json
-"homepage": "https://tmmethode.github.io/portfolio"
-```
-
-2. Install gh-pages:
+### Backend (Server)
 ```bash
-npm install --save-dev gh-pages
+cd server
+npm start
+# Deploy to your server or cloud platform
 ```
 
-3. Add scripts to package.json:
-```json
-"predeploy": "npm run build",
-"deploy": "gh-pages -d build"
+## 📝 Environment Variables
+
+Create a `.env` file in the server directory:
+
+```env
+NODE_ENV=development
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+CORS_ORIGIN=http://localhost:3000
 ```
-
-4. Deploy:
-```bash
-npm run deploy
-```
-
-## 🎯 About TMMETHODE
-
-**Cloud Engineer & Systems Administrator** with expertise in:
-
-- ☁️ **Cloud Infrastructure**: AWS, Azure, Google Cloud
-- 🖥️ **Systems Administration**: Linux, Windows Server
-- 🔒 **Cybersecurity**: Security best practices and implementation
-- 💻 **Software Development**: Full-stack development
-- 🚀 **DevOps**: CI/CD, automation, containerization
-- 📊 **Data Management**: Database administration and optimization
-
-## 📱 Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is licensed under the ISC License.
 
-## 📞 Contact
+## 👨‍💻 Author
 
-- **Email**: info@tmmethode.com
-- **LinkedIn**: [TMMETHODE](https://www.linkedin.com/in/tmmethode)
-- **GitHub**: [@tmmethode](https://github.com/tmmethode)
-- **Location**: Kigali, Rwanda
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ using React.js and Tailwind CSS
-- Icons from [React Icons](https://react-icons.github.io/react-icons/)
-- Animations powered by [Framer Motion](https://www.framer.com/motion/)
+**TMMETHODE** - Cloud Engineer & Systems Administrator
 
 ---
 
-**TMMETHODE** - Cloud Engineer & Systems Administrator  
-*Building secure and scalable solutions for the future* ☁️🚀 
+Built with ❤️ using React, Express.js, and MongoDB 

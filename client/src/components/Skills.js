@@ -6,118 +6,96 @@ import {
   FiGitBranch, FiMonitor, FiZap, FiTrendingUp, FiLayers, FiSettings,
   FiUser, FiGlobe, FiAward
 } from 'react-icons/fi';
+import { useData } from '../context/DataContext';
 
 const Skills = () => {
+  const { skills, loading, error } = useData();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  const skillCategories = [
-    {
-      title: 'Systems Administration',
-      subtitle: 'Infrastructure & User Management',
-      icon: FiServer,
-      color: 'primary',
-      description: 'Expertise in Linux/Unix, Windows Server, and user management systems',
-      skills: [
-        { name: 'Linux/Unix Systems', level: 85, experience: '3+ years' },
-        { name: 'Windows Server', level: 80, experience: '2+ years' },
-        { name: 'User Management', level: 90, experience: '3+ years' },
-        { name: 'System Troubleshooting', level: 88, experience: '3+ years' },
-        { name: 'System Backups', level: 85, experience: '2+ years' },
-        { name: 'Network Configuration', level: 80, experience: '2+ years' },
-        { name: 'Security Hardening', level: 75, experience: '2+ years' },
-      ]
-    },
-    {
-      title: 'DevOps & Cloud',
-      subtitle: 'Infrastructure & Automation',
-      icon: FiCloud,
-      color: 'orange',
-      description: 'Cloud platforms, virtualization, automation, and infrastructure management',
-      skills: [
-        { name: 'AWS', level: 75, experience: '2+ years' },
-        { name: 'Google Cloud Platform', level: 70, experience: '2+ years' },
-        { name: 'Huawei Cloud', level: 80, experience: '3+ years' },
-        { name: 'Oracle Cloud', level: 65, experience: '1+ years' },
-        { name: 'Virtualization Technologies', level: 75, experience: '2+ years' },
-        { name: 'Git', level: 85, experience: '3+ years' },
-        { name: 'CI/CD Pipelines', level: 70, experience: '2+ years' },
-      ]
-    },
+  // Organize skills by category
+  const organizeSkillsByCategory = () => {
+    // Ensure skills is an array
+    const skillsArray = Array.isArray(skills) ? skills : [];
+    if (!skillsArray || skillsArray.length === 0) return [];
+    
+    const categories = {
+      'Systems Administration': {
+        title: 'Systems Administration',
+        subtitle: 'Infrastructure & User Management',
+        icon: FiServer,
+        color: 'primary',
+        description: 'Expertise in Linux/Unix, Windows Server, and user management systems',
+        skills: []
+      },
+      'DevOps & Cloud': {
+        title: 'DevOps & Cloud',
+        subtitle: 'Infrastructure & Automation',
+        icon: FiCloud,
+        color: 'orange',
+        description: 'Cloud platforms, virtualization, automation, and infrastructure management',
+        skills: []
+      },
+      'Programming & Development': {
+        title: 'Programming & Development',
+        subtitle: 'Full-Stack Development',
+        icon: FiCode,
+        color: 'green',
+        description: 'Modern software development with focus on scalable applications',
+        skills: []
+      },
+      'Frontend & Database': {
+        title: 'Frontend & Database',
+        subtitle: 'Web Development & Data',
+        icon: FiTrendingUp,
+        color: 'purple',
+        description: 'Frontend development and database management',
+        skills: []
+      },
+      'Networking': {
+        title: 'Networking',
+        subtitle: 'Network Infrastructure & Management',
+        icon: FiServer,
+        color: 'blue',
+        description: 'Network administration, routing, and infrastructure management',
+        skills: []
+      },
+      'Cybersecurity': {
+        title: 'Cybersecurity',
+        subtitle: 'Security & Defense',
+        icon: FiShield,
+        color: 'red',
+        description: 'Security protocols, threat detection, and cyber defense',
+        skills: []
+      },
+      'CRM & ERP Systems': {
+        title: 'CRM & ERP Systems',
+        subtitle: 'Business Applications & Management',
+        icon: FiDatabase,
+        color: 'indigo',
+        description: 'Customer relationship management and enterprise resource planning systems',
+        skills: []
+      }
+    };
 
-    {
-      title: 'Programming & Development',
-      subtitle: 'Full-Stack Development',
-      icon: FiCode,
-      color: 'green',
-      description: 'Modern software development with focus on scalable applications',
-      skills: [
-        { name: 'Python', level: 85, experience: '3+ years' },
-        { name: 'PHP', level: 75, experience: '2+ years' },
-        { name: 'Java', level: 70, experience: '2+ years' },
-        { name: 'Node.js', level: 80, experience: '2+ years' },
-        { name: 'JavaScript', level: 85, experience: '3+ years' },
-      ]
-    },
-    {
-      title: 'Frontend & Database',
-      subtitle: 'Web Development & Data',
-      icon: FiTrendingUp,
-      color: 'purple',
-      description: 'Frontend development and database management',
-      skills: [
-        { name: 'React.js', level: 80, experience: '2+ years' },
-        { name: 'Tailwind CSS', level: 85, experience: '2+ years' },
-        { name: 'HTML/CSS', level: 90, experience: '3+ years' },
-        { name: 'MongoDB', level: 75, experience: '2+ years' },
-        { name: 'MySQL', level: 80, experience: '2+ years' },
-      ]
-    },
-    {
-      title: 'Networking',
-      subtitle: 'Network Infrastructure & Management',
-      icon: FiServer,
-      color: 'blue',
-      description: 'Network administration, routing, and infrastructure management',
-      skills: [
-        { name: 'Network Administration', level: 85, experience: '3+ years' },
-        { name: 'Routing & Switching', level: 80, experience: '2+ years' },
-        { name: 'VPN Technologies', level: 75, experience: '2+ years' },
-        { name: 'Network Monitoring', level: 80, experience: '2+ years' },
-        { name: 'Network Troubleshooting', level: 85, experience: '3+ years' },
-      ]
-    },
-    {
-      title: 'Cybersecurity',
-      subtitle: 'Security & Defense',
-      icon: FiShield,
-      color: 'red',
-      description: 'Security protocols, threat detection, and cyber defense',
-      skills: [
-        { name: 'Firewall Configuration', level: 80, experience: '2+ years' },
-        { name: 'Intrusion Detection', level: 70, experience: '2+ years' },
-        { name: 'Security Auditing', level: 75, experience: '2+ years' },
-        { name: 'Vulnerability Assessment', level: 70, experience: '2+ years' },
-        { name: 'Penetration Testing', level: 65, experience: '1+ years' },
-      ]
-    },
-    {
-      title: 'CRM & ERP Systems',
-      subtitle: 'Business Applications & Management',
-      icon: FiDatabase,
-      color: 'indigo',
-      description: 'Customer relationship management and enterprise resource planning systems',
-      skills: [
-        { name: 'Salesforce CRM', level: 85, experience: '1+ years' },
-        { name: 'Data Cleaning', level: 80, experience: '2+ years' },
-        { name: 'Dashboard Creation', level: 75, experience: '2+ years' },
-        { name: 'Workflow Automation', level: 70, experience: '2+ years' },
-        { name: 'User Training', level: 80, experience: '1+ years' },
-      ]
-    }
-  ];
+    // Group skills by category
+    skillsArray.forEach(skill => {
+      if (categories[skill.category]) {
+        categories[skill.category].skills.push({
+          name: skill.name,
+          level: skill.proficiency,
+          experience: `${Math.floor(skill.proficiency / 25) + 1}+ years`
+        });
+      }
+    });
+
+    // Return only categories that have skills
+    return Object.values(categories).filter(category => category.skills.length > 0);
+  };
+
+  const skillCategories = organizeSkillsByCategory();
 
   const toolsAndTechnologies = [
     // Cloud Platforms
@@ -267,6 +245,33 @@ const Skills = () => {
     };
     return colors[color] || colors.primary;
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section id="skills" className="section-padding bg-secondary-50 dark:bg-gray-800 overflow-hidden">
+        <div className="container-max">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="text-secondary-600 dark:text-gray-300 mt-4">Loading skills...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section id="skills" className="section-padding bg-secondary-50 dark:bg-gray-800 overflow-hidden">
+        <div className="container-max">
+          <div className="text-center">
+            <p className="text-red-600 dark:text-red-400">Error loading skills: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="skills" className="section-padding bg-secondary-50 dark:bg-gray-800 overflow-hidden">
