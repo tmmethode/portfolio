@@ -29,12 +29,16 @@ const app = express();
 // app.use(helmet());
 
 // CORS configuration
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? true  // Allow all origins in production for external access
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
+
+app.use(cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
