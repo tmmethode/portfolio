@@ -62,6 +62,7 @@ RATE_LIMIT_MAX=100
 
 # CORS Configuration
 FRONTEND_URL=http://localhost:3000
+ALLOWED_ORIGINS=https://tmmethode.com,https://www.tmmethode.com,https://portfolio-1027061627518.us-central1.run.app
 
 # Admin Credentials (for initial setup - change in production)
 ADMIN_EMAIL=admin@tmmethode.com

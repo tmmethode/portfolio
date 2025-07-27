@@ -215,6 +215,7 @@ PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 CORS_ORIGIN=http://localhost:3000
+ALLOWED_ORIGINS=https://tmmethode.com,https://www.tmmethode.com,https://portfolio-1027061627518.us-central1.run.app
 ```
 
 ## 🤝 Contributing
