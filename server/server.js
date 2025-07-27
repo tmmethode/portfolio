@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./config/swagger');
+const path = require('path');
 require('dotenv').config();
 
 // Import routes
@@ -52,6 +53,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
+}
+
+// Serve static files from React build in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
 /**
@@ -119,10 +125,15 @@ app.use(errorHandler);
 
 // 404 handler
 app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
+  // In production, serve React app for non-API routes
+  if (process.env.NODE_ENV === 'production' && !req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  } else {
+    res.status(404).json({
+      success: false,
+      message: 'Route not found'
+    });
+  }
 });
 
 // MongoDB connection
