@@ -155,14 +155,22 @@ const PORT = process.env.PORT || 8080;
 
 const startServer = async () => {
   try {
+    // Debug environment variables
+    console.log('🔍 Environment Variables Debug:');
+    console.log(`PORT: ${process.env.PORT}`);
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+    console.log(`MONGODB_URI: ${process.env.MONGODB_URI ? 'SET' : 'NOT SET'}`);
+    console.log(`JWT_SECRET: ${process.env.JWT_SECRET ? 'SET' : 'NOT SET'}`);
+    console.log(`Using PORT: ${PORT}`);
+    
     await connectDB();
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`Environment: ${process.env.NODE_ENV}`);
-      console.log(`API Health Check: http://localhost:${PORT}/api/health`);
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+      console.log(`🔗 API Health Check: http://localhost:${PORT}/api/health`);
     });
   } catch (error) {
-    console.error('Server startup error:', error);
+    console.error('❌ Server startup error:', error);
     process.exit(1);
   }
 };

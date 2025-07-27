@@ -32,11 +32,7 @@ gcloud run deploy $SERVICE_NAME \
   --cpu=1 \
   --max-instances=10 \
   --port=8080 \
-  --set-env-vars=NODE_ENV=production,PORT=8080 \
-  --set-env-vars=MONGODB_URI="$MONGODB_URI" \
-  --set-env-vars=JWT_SECRET="$JWT_SECRET" \
-  --set-env-vars=RATE_LIMIT_WINDOW_MS=900000 \
-  --set-env-vars=RATE_LIMIT_MAX=100
+  --set-env-vars="NODE_ENV=production,PORT=8080,MONGODB_URI=$MONGODB_URI,JWT_SECRET=$JWT_SECRET,RATE_LIMIT_WINDOW_MS=900000,RATE_LIMIT_MAX=100"
 
 echo "✅ Force deployment complete!"
 echo "🌐 Service URL: https://$SERVICE_NAME-$REGION-$PROJECT_ID.a.run.app" 
