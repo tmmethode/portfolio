@@ -86,8 +86,8 @@ const About = () => {
             </div>
 
             {/* Personal Information */}
-            <div className="bg-secondary-50 dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold text-secondary-900 dark:text-white mb-4">Personal Information</h3>
+            <div className="bg-secondary-50 dark:bg-gray-800 rounded-xl p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4">Personal Information</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {personalInfo.map((info, index) => (
                   <motion.div
@@ -97,8 +97,8 @@ const About = () => {
                   >
                     <info.icon className="text-primary-600" size={18} />
                     <div>
-                      <p className="text-sm text-secondary-500 dark:text-gray-400">{info.label}</p>
-                      <p className="font-medium text-secondary-900 dark:text-white">{info.value}</p>
+                      <p className="text-xs sm:text-sm text-secondary-500 dark:text-gray-400">{info.label}</p>
+                      <p className="text-xs sm:text-sm font-medium text-secondary-900 dark:text-white">{info.value}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -109,25 +109,25 @@ const About = () => {
           {/* Right Column - About Content */}
           <motion.div variants={itemVariants} className="space-y-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
                 About <span className="gradient-text">Me</span>
               </h2>
-              <p className="text-lg text-secondary-600 dark:text-gray-300 leading-relaxed mb-6">
+              <p className="text-sm sm:text-base lg:text-lg text-secondary-600 dark:text-gray-300 leading-relaxed mb-6">
                 {summary}
               </p>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-200 mb-3">What I Do</h3>
-                <p className="text-primary-800 dark:text-primary-300 leading-relaxed">
+              <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold text-primary-900 dark:text-primary-200 mb-3">What I Do</h3>
+                <p className="text-sm sm:text-base text-primary-800 dark:text-primary-300 leading-relaxed">
                   {whatIDo}
                 </p>
               </div>
 
-              <div className="bg-secondary-50 dark:bg-gray-800 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-secondary-900 dark:text-white mb-3">My Approach</h3>
-                <p className="text-secondary-800 dark:text-gray-300 leading-relaxed">
+              <div className="bg-secondary-50 dark:bg-gray-800 rounded-lg p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3">My Approach</h3>
+                <p className="text-sm sm:text-base text-secondary-800 dark:text-gray-300 leading-relaxed">
                   {myApproach}
                 </p>
               </div>
@@ -135,7 +135,7 @@ const About = () => {
 
             {/* Key Strengths */}
             <div>
-              <h3 className="text-xl font-semibold text-secondary-900 dark:text-white mb-4">Key Strengths</h3>
+              <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-4">Key Strengths</h3>
               <div className="grid grid-cols-2 gap-4">
                 {keyStrengths.map((strength, index) => (
                   <motion.div
@@ -144,7 +144,7 @@ const About = () => {
                     className="flex items-center space-x-2"
                   >
                     <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
-                    <span className="text-secondary-700 dark:text-gray-300">{strength}</span>
+                    <span className="text-xs sm:text-sm text-secondary-700 dark:text-gray-300">{strength}</span>
                   </motion.div>
                 ))}
               </div>

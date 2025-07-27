@@ -82,10 +82,10 @@ const Experience = () => {
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
               Professional <span className="gradient-text">Experience</span>
             </h2>
-            <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base lg:text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
               My journey through systems administration, Salesforce management, and software development with field experience in district-level support.
             </p>
           </motion.div>

@@ -57,7 +57,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-secondary-900 dark:text-white leading-tight"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-secondary-900 dark:text-white leading-tight"
               >
                 Hi, I'm{' '}
                 <span className="gradient-text">{name}</span>
@@ -68,7 +68,7 @@ const Hero = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-secondary-700 dark:text-gray-200 leading-tight"
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-secondary-700 dark:text-gray-200 leading-tight"
                 >
                   {title}
                 </motion.h2>
@@ -82,7 +82,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-sm sm:text-base md:text-lg text-secondary-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+              className="text-xs sm:text-sm md:text-base lg:text-lg text-secondary-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
             >
               {about}
             </motion.p>
