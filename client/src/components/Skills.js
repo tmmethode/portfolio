@@ -286,7 +286,7 @@ const Skills = () => {
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
-              Cloud & <span className="gradient-text">Systems</span>
+              What I Do <span className="gradient-text">Best</span>
             </h2>
             <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
               My expertise spans across cloud infrastructure, systems administration, cybersecurity, 
