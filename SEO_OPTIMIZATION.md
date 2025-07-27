@@ -1,4 +1,4 @@
-# SEO Optimization Guide for TMMETHODE Portfolio
+# SEO Optimization Guide for Methode TWIZEYIMANA Portfolio
 
 ## 🎯 SEO Improvements Implemented
 
@@ -67,6 +67,8 @@
 - "AWS Certified Professional Rwanda"
 - "Systems Administrator Kigali"
 - "IT Infrastructure Consultant Rwanda"
+- "Methode TWIZEYIMANA Cloud Engineer"
+- "TWIZEYIMANA DevOps Expert Rwanda"
 
 ## 📊 SEO Metrics to Monitor
 
@@ -109,6 +111,8 @@
 - Target "Rwanda cloud engineer"
 - Focus on "East Africa DevOps"
 - Build local business citations
+- Target "Methode TWIZEYIMANA Rwanda"
+- Optimize for "TWIZEYIMANA IT services Kigali"
 
 ### **4. Technical Improvements:**
 - Implement Google Analytics

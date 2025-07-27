@@ -109,8 +109,8 @@ const AppContent = () => {
       <PerformanceOptimizer />
       <SEO 
         title="Home"
-        description="TMMETHODE is a Cloud Engineer & Systems Administrator with expertise in AWS, Google Cloud, Azure, DevOps, cybersecurity, and software development. Based in Kigali, Rwanda."
-        keywords="cloud engineer, systems administrator, devops, aws, google cloud, azure, cybersecurity, software development, kigali, rwanda, IT professional"
+        description="Methode TWIZEYIMANA is a Cloud Engineer & Systems Administrator with expertise in AWS, Google Cloud, Azure, DevOps, cybersecurity, and software development. Based in Kigali, Rwanda."
+        keywords="cloud engineer, systems administrator, devops, aws, google cloud, azure, cybersecurity, software development, kigali, rwanda, IT professional, Methode TWIZEYIMANA"
         url="/"
       />
       <div className="min-h-screen bg-gradient-to-br from-secondary-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
@@ -134,7 +134,7 @@ const AppContent = () => {
             <>
               <SEO 
                 title="Privacy Policy"
-                description="Privacy Policy for TMMETHODE Portfolio - Learn how we protect your data and privacy."
+                description="Privacy Policy for Methode TWIZEYIMANA Portfolio - Learn how we protect your data and privacy."
                 url="/privacy-policy"
               />
               <PrivacyPolicy />
@@ -144,7 +144,7 @@ const AppContent = () => {
             <>
               <SEO 
                 title="Terms of Service"
-                description="Terms of Service for TMMETHODE Portfolio - Read our terms and conditions."
+                description="Terms of Service for Methode TWIZEYIMANA Portfolio - Read our terms and conditions."
                 url="/terms-of-service"
               />
               <TermsOfService />
@@ -154,7 +154,7 @@ const AppContent = () => {
             <>
               <SEO 
                 title="Cookie Policy"
-                description="Cookie Policy for TMMETHODE Portfolio - Learn about our cookie usage."
+                description="Cookie Policy for Methode TWIZEYIMANA Portfolio - Learn about our cookie usage."
                 url="/cookie-policy"
               />
               <CookiePolicy />

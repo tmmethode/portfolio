@@ -8,14 +8,14 @@ const SEO = ({
   image, 
   url, 
   type = 'website',
-  author = 'TMMETHODE',
+  author = 'Methode TWIZEYIMANA',
   publishedTime,
   modifiedTime,
   section,
   tags = []
 }) => {
-  const siteTitle = 'TMMETHODE - Cloud Engineer & Systems Administrator';
-  const siteDescription = 'TMMETHODE is a Cloud Engineer & Systems Administrator with expertise in AWS, Google Cloud, Azure, DevOps, cybersecurity, and software development. Based in Kigali, Rwanda.';
+  const siteTitle = 'Methode TWIZEYIMANA - Cloud Engineer & Systems Administrator';
+  const siteDescription = 'Methode TWIZEYIMANA is a Cloud Engineer & Systems Administrator with expertise in AWS, Google Cloud, Azure, DevOps, cybersecurity, and software development. Based in Kigali, Rwanda.';
   const siteUrl = 'https://tmmethode.com';
   const siteImage = `${siteUrl}/og-image.jpg`;
 
@@ -75,15 +75,15 @@ const SEO = ({
       <meta name="DC.creator" content={author} />
       <meta name="DC.subject" content="Cloud Engineering, DevOps, Systems Administration" />
       <meta name="DC.description" content={seoDescription} />
-      <meta name="DC.publisher" content="TMMETHODE" />
-      <meta name="DC.contributor" content="TMMETHODE" />
+      <meta name="DC.publisher" content="Methode TWIZEYIMANA" />
+      <meta name="DC.contributor" content="Methode TWIZEYIMANA" />
       <meta name="DC.date" content={new Date().toISOString().split('T')[0]} />
       <meta name="DC.type" content="Text" />
       <meta name="DC.format" content="text/html" />
       <meta name="DC.identifier" content={seoUrl} />
       <meta name="DC.language" content="en" />
       <meta name="DC.coverage" content="Kigali, Rwanda" />
-      <meta name="DC.rights" content="Copyright TMMETHODE" />
+      <meta name="DC.rights" content="Copyright Methode TWIZEYIMANA" />
     </Helmet>
   );
 };
