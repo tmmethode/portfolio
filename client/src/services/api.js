@@ -5,6 +5,21 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL;
+    this.maxRetries = 3;
+    this.retryDelay = 1000; // 1 second
+  }
+
+  async retryRequest(fn, retries = this.maxRetries) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (retries > 0 && (error.message.includes('timeout') || error.message.includes('Network error'))) {
+        console.log(`Retrying request... (${retries} attempts left)`);
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        return this.retryRequest(fn, retries - 1);
+      }
+      throw error;
+    }
   }
 
   async request(endpoint, options = {}) {
@@ -17,18 +32,36 @@ class ApiService {
       ...options,
     };
 
-    try {
-      const response = await fetch(url, config);
+    const makeRequest = async () => {
+      // Add timeout to fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch(url, { ...config, signal: controller.signal });
+      clearTimeout(timeoutId);
+      
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'API request failed');
+        throw new Error(data.message || `API request failed: ${response.status}`);
       }
 
       return data;
+    };
+
+    try {
+      return await this.retryRequest(makeRequest);
     } catch (error) {
       console.error('API Error:', error);
-      throw error;
+      
+      // Provide more specific error messages
+      if (error.name === 'AbortError') {
+        throw new Error('Request timeout - please check your connection');
+      } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Network error - please check your connection');
+      } else {
+        throw error;
+      }
     }
   }
 

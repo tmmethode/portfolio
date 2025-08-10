@@ -30,7 +30,8 @@ export const DataProvider = ({ children }) => {
       
       console.log('Fetching all data...');
       
-      const [profileData, skillsData, experienceData, educationData, projectsData, navigationData, footerLinksData] = await Promise.all([
+      // Use Promise.allSettled to handle partial failures gracefully
+      const results = await Promise.allSettled([
         apiService.getProfile(),
         apiService.getSkills(),
         apiService.getExperience(),
@@ -40,19 +41,47 @@ export const DataProvider = ({ children }) => {
         apiService.getFooterLinks()
       ]);
       
-      console.log('Setting profile data:', profileData);
-      setProfile(profileData.data || profileData);
-      setSkills(skillsData.data || skillsData);
-      setExperience(experienceData.data || experienceData);
-      setEducation(educationData.data || educationData);
-      setProjects(projectsData.data || projectsData);
-      setNavigation(navigationData.data || navigationData);
-      setFooterLinks(footerLinksData.data || footerLinksData);
+      // Process results and handle partial failures
+      const [profileResult, skillsResult, experienceResult, educationResult, projectsResult, navigationResult, footerLinksResult] = results;
       
-      console.log('All data set successfully');
+      if (profileResult.status === 'fulfilled') {
+        setProfile(profileResult.value.data || profileResult.value);
+      }
+      
+      if (skillsResult.status === 'fulfilled') {
+        setSkills(skillsResult.value.data || skillsResult.value);
+      }
+      
+      if (experienceResult.status === 'fulfilled') {
+        setExperience(experienceResult.value.data || experienceResult.value);
+      }
+      
+      if (educationResult.status === 'fulfilled') {
+        setEducation(educationResult.value.data || educationResult.value);
+      }
+      
+      if (projectsResult.status === 'fulfilled') {
+        setProjects(projectsResult.value.data || projectsResult.value);
+      }
+      
+      if (navigationResult.status === 'fulfilled') {
+        setNavigation(navigationResult.value.data || navigationResult.value);
+      }
+      
+      if (footerLinksResult.status === 'fulfilled') {
+        setFooterLinks(footerLinksResult.value.data || footerLinksResult.value);
+      }
+      
+      // Check if we have any successful data
+      const hasData = results.some(result => result.status === 'fulfilled');
+      if (!hasData) {
+        setError('Unable to load any data. Please check your connection and try again.');
+      }
+      
+      console.log('Data processing completed');
     } catch (error) {
       console.error('Error fetching data:', error);
-      setError(error.message);
+      setError(error.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
@@ -159,7 +188,17 @@ export const DataProvider = ({ children }) => {
 
   // Initialize data on mount
   useEffect(() => {
+    // Add timeout to prevent hanging
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        setError('Data loading is taking longer than expected. Please refresh the page.');
+        setLoading(false);
+      }
+    }, 30000); // 30 second timeout
+
     fetchAllData();
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const value = {

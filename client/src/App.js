@@ -19,6 +19,7 @@ import CookiePolicy from './components/CookiePolicy';
 import AdminPanel from './components/AdminPanel';
 import SEO from './components/SEO';
 import PerformanceOptimizer from './components/PerformanceOptimizer';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Loading Component with Theme Access
 const LoadingScreen = () => {
@@ -116,19 +117,21 @@ const AppContent = () => {
       <div className="min-h-screen bg-gradient-to-br from-secondary-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
         <Routes>
           <Route path="/" element={
-            <>
-              <Navbar />
-              <main>
-                <Hero />
-                <About />
-                <Skills />
-                <Experience />
-                <Education />
-                <Projects />
-                <Contact />
-              </main>
-              <Footer />
-            </>
+            <ErrorBoundary>
+              <>
+                <Navbar />
+                <main className="relative z-0">
+                  <Hero />
+                  <About />
+                  <Skills />
+                  <Experience />
+                  <Education />
+                  <Projects />
+                  <Contact />
+                </main>
+                <Footer />
+              </>
+            </ErrorBoundary>
           } />
           <Route path="/privacy-policy" element={
             <>
@@ -172,7 +175,9 @@ function App() {
     <HelmetProvider>
       <ThemeProvider>
         <DataProvider>
-          <AppContent />
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
         </DataProvider>
       </ThemeProvider>
     </HelmetProvider>

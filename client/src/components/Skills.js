@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { 
@@ -14,6 +14,21 @@ const Skills = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Check if component is mounted and detect mobile
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Organize skills by category
   const organizeSkillsByCategory = () => {
@@ -96,6 +111,16 @@ const Skills = () => {
   };
 
   const skillCategories = organizeSkillsByCategory();
+
+  // Fallback data if API fails
+  const fallbackSkills = [
+    { name: 'AWS', level: 85, experience: '3+ years' },
+    { name: 'Docker', level: 80, experience: '3+ years' },
+    { name: 'Linux', level: 90, experience: '4+ years' },
+    { name: 'Python', level: 75, experience: '3+ years' },
+    { name: 'Kubernetes', level: 70, experience: '2+ years' },
+    { name: 'Terraform', level: 75, experience: '2+ years' }
+  ];
 
   const toolsAndTechnologies = [
     // Cloud Platforms
@@ -223,13 +248,13 @@ const Skills = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: isMobile ? 0.1 : 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: isMobile ? 10 : 20 },
     visible: { opacity: 1, y: 0 },
   };
 
@@ -247,9 +272,9 @@ const Skills = () => {
   };
 
   // Show loading state
-  if (loading) {
+  if (loading && !mounted) {
     return (
-      <section id="skills" className="section-padding bg-secondary-50 dark:bg-gray-800 overflow-hidden">
+      <section id="skills" className="section-padding bg-secondary-50 dark:bg-gray-800 overflow-hidden min-h-[400px] flex items-center justify-center">
         <div className="container-max">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
@@ -260,17 +285,45 @@ const Skills = () => {
     );
   }
 
-  // Show error state
-  if (error) {
+  // Show error state with fallback
+  if (error && skillCategories.length === 0) {
     return (
       <section id="skills" className="section-padding bg-secondary-50 dark:bg-gray-800 overflow-hidden">
         <div className="container-max">
-          <div className="text-center">
-            <p className="text-red-600 dark:text-red-400">Error loading skills: {error}</p>
+          <div className="text-center mb-8">
+            <p className="text-red-600 dark:text-red-400 mb-4">Error loading skills: {error}</p>
+            <p className="text-secondary-600 dark:text-gray-300">Showing fallback content...</p>
+          </div>
+          
+          {/* Fallback Skills Display */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {fallbackSkills.map((skill, index) => (
+              <div key={skill.name} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-secondary-100 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-secondary-900 dark:text-white mb-3">{skill.name}</h3>
+                <div className="mb-2">
+                  <div className="flex justify-between text-sm text-secondary-600 dark:text-gray-400 mb-1">
+                    <span>Proficiency</span>
+                    <span>{skill.level}%</span>
+                  </div>
+                  <div className="w-full bg-secondary-200 dark:bg-gray-600 rounded-full h-2">
+                    <div 
+                      className="bg-primary-600 h-2 rounded-full transition-all duration-1000"
+                      style={{ width: `${skill.level}%` }}
+                    ></div>
+                  </div>
+                </div>
+                <p className="text-sm text-secondary-500 dark:text-gray-400">{skill.experience}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
     );
+  }
+
+  // Ensure component is mounted before rendering
+  if (!mounted) {
+    return null;
   }
 
   return (
@@ -281,52 +334,52 @@ const Skills = () => {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           variants={containerVariants}
-          className="space-y-12"
+          className="space-y-8 sm:space-y-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-3 sm:mb-4">
               What I Do <span className="gradient-text">Best</span>
             </h2>
-            <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
               My expertise spans across cloud infrastructure, systems administration, cybersecurity, 
               and software development. Here's an overview of my technical capabilities.
             </p>
           </motion.div>
 
           {/* Skill Categories */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {skillCategories.map((category, index) => (
               <motion.div
                 key={category.title}
                 variants={itemVariants}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: isMobile ? 0 : -5 }}
                 className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-secondary-100 dark:border-gray-700"
               >
                 {/* Category Header */}
                 <div className="flex items-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
-                  <div className={`p-3 sm:p-4 rounded-xl ${getColorClasses(category.color)} bg-opacity-10 flex-shrink-0`}>
-                    <category.icon className={`text-xl sm:text-2xl ${getColorClasses(category.color)}`} />
+                  <div className={`p-2 sm:p-3 lg:p-4 rounded-xl ${getColorClasses(category.color)} bg-opacity-10 flex-shrink-0`}>
+                    <category.icon className={`text-lg sm:text-xl lg:text-2xl ${getColorClasses(category.color)}`} />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-white mb-1">{category.title}</h3>
-                    <p className="text-base sm:text-lg font-medium text-primary-600 dark:text-primary-400 mb-2">{category.subtitle}</p>
-                    <p className="text-secondary-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed">{category.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-secondary-900 dark:text-white mb-1">{category.title}</h3>
+                    <p className="text-sm sm:text-base lg:text-lg font-medium text-primary-600 dark:text-primary-400 mb-2">{category.subtitle}</p>
+                    <p className="text-xs sm:text-sm text-secondary-600 dark:text-gray-300 leading-relaxed">{category.description}</p>
                   </div>
                 </div>
 
                 {/* Skills List */}
-                <div className="space-y-4 sm:space-y-6">
+                <div className="space-y-3 sm:space-y-4 lg:space-y-6">
                   {category.skills.map((skill, skillIndex) => (
                     <div key={skill.name} className="group">
                       <div className="flex justify-between items-center mb-2 sm:mb-3">
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 pr-2">
                           <h4 className="text-sm sm:text-base text-secondary-900 dark:text-white font-semibold group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300 truncate">
                             {skill.name}
                           </h4>
                           <p className="text-xs text-secondary-500 dark:text-gray-400 mt-1">{skill.experience}</p>
                         </div>
-                        <div className="flex items-center space-x-2 ml-2">
+                        <div className="flex items-center space-x-2 ml-2 flex-shrink-0">
                           <span className="text-xs sm:text-sm font-medium text-secondary-700 dark:text-gray-300">{skill.level}%</span>
                           <div className="w-12 sm:w-16 h-2 bg-secondary-200 dark:bg-gray-600 rounded-full overflow-hidden">
                             <motion.div
@@ -358,10 +411,10 @@ const Skills = () => {
           {/* Tools and Technologies */}
           <motion.div variants={itemVariants} className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg border border-secondary-100 dark:border-gray-700">
             <div className="text-center mb-6 sm:mb-8">
-              <h3 className="text-2xl sm:text-3xl font-bold text-secondary-900 dark:text-white mb-2">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-secondary-900 dark:text-white mb-2">
                 Tools & Technologies
               </h3>
-              <p className="text-sm sm:text-base text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
                 Comprehensive toolkit organized by technology domains
               </p>
             </div>
@@ -370,7 +423,7 @@ const Skills = () => {
             <div className="space-y-6 sm:space-y-8">
               {/* Cloud & Infrastructure */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiCloud className="mr-2 text-primary-600" />
                   Cloud & Infrastructure
                 </h4>
@@ -381,10 +434,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-gray-800 hover:from-blue-100 hover:to-white dark:hover:from-blue-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-blue-200 dark:border-blue-700 hover:border-blue-300 dark:hover:border-blue-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-blue-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-blue-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -395,7 +448,7 @@ const Skills = () => {
 
               {/* DevOps & Automation */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiZap className="mr-2 text-primary-600" />
                   DevOps & Automation
                 </h4>
@@ -406,10 +459,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-green-50 to-white dark:from-green-900/20 dark:to-gray-800 hover:from-green-100 hover:to-white dark:hover:from-green-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-green-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-green-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -420,7 +473,7 @@ const Skills = () => {
 
               {/* Big Data & Analytics */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiTrendingUp className="mr-2 text-primary-600" />
                   Big Data & Analytics
                 </h4>
@@ -431,10 +484,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-gray-800 hover:from-purple-100 hover:to-white dark:hover:from-purple-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-purple-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-purple-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -445,7 +498,7 @@ const Skills = () => {
 
               {/* Databases & Web Technologies */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiDatabase className="mr-2 text-primary-600" />
                   Databases & Web Technologies
                 </h4>
@@ -456,10 +509,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-gray-800 hover:from-orange-100 hover:to-white dark:hover:from-orange-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-orange-200 dark:border-orange-700 hover:border-orange-300 dark:hover:border-orange-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-orange-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-orange-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-orange-700 dark:group-hover:text-orange-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -470,7 +523,7 @@ const Skills = () => {
 
               {/* Networking */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiServer className="mr-2 text-primary-600" />
                   Networking
                 </h4>
@@ -481,10 +534,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-gray-800 hover:from-blue-100 hover:to-white dark:hover:from-blue-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-blue-200 dark:border-blue-700 hover:border-blue-300 dark:hover:border-blue-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-blue-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-blue-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -495,7 +548,7 @@ const Skills = () => {
 
               {/* Cybersecurity */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiShield className="mr-2 text-primary-600" />
                   Cybersecurity
                 </h4>
@@ -506,10 +559,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-red-50 to-white dark:from-red-900/20 dark:to-gray-800 hover:from-red-100 hover:to-white dark:hover:from-red-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-red-200 dark:border-red-700 hover:border-red-300 dark:hover:border-red-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-red-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-red-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-red-700 dark:group-hover:text-red-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -520,7 +573,7 @@ const Skills = () => {
 
               {/* CRM & ERP Systems */}
               <div>
-                <h4 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <FiDatabase className="mr-2 text-primary-600" />
                   CRM & ERP Systems
                 </h4>
@@ -531,10 +584,10 @@ const Skills = () => {
                     <motion.div
                       key={tool.name}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                       className="group text-center p-2 sm:p-3 rounded-lg bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-900/20 dark:to-gray-800 hover:from-indigo-100 hover:to-white dark:hover:from-indigo-900/30 dark:hover:to-gray-800 transition-all duration-300 border border-indigo-200 dark:border-indigo-700 hover:border-indigo-300 dark:hover:border-indigo-500 shadow-sm hover:shadow-md"
                     >
-                      <tool.icon className="text-lg sm:text-2xl text-indigo-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
+                      <tool.icon className="text-base sm:text-lg lg:text-2xl text-indigo-600 mx-auto mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <h5 className="font-medium text-secondary-900 dark:text-white text-xs group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors duration-300 leading-tight">
                         {tool.name}
                       </h5>
@@ -549,7 +602,7 @@ const Skills = () => {
           <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             <motion.div 
               variants={itemVariants}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: isMobile ? 0 : -5 }}
               className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 md:p-8 shadow-lg border border-secondary-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center space-x-3 mb-4 sm:mb-6">
@@ -570,7 +623,7 @@ const Skills = () => {
 
             <motion.div 
               variants={itemVariants}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: isMobile ? 0 : -5 }}
               className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 md:p-8 shadow-lg border border-secondary-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center space-x-3 mb-4 sm:mb-6">
@@ -591,7 +644,7 @@ const Skills = () => {
 
             <motion.div 
               variants={itemVariants}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: isMobile ? 0 : -5 }}
               className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 md:p-8 shadow-lg border border-secondary-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center space-x-3 mb-4 sm:mb-6">
