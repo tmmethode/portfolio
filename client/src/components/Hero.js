@@ -33,7 +33,7 @@ const Hero = () => {
   const socialLinks = profile?.socialLinks || {};
 
   return (
-                <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden w-full pt-16 sm:pt-20">
+                <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden w-full pt-12 sm:pt-16">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
       <div className="absolute inset-0 opacity-30">

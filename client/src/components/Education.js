@@ -76,8 +76,22 @@ const Education = () => {
       <section id="education" className="section-padding bg-white dark:bg-gray-900">
         <div className="container-max">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-            <p className="text-secondary-600 dark:text-gray-300 mt-4">Loading education...</p>
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FiAward className="text-primary-600 dark:text-primary-400 text-2xl animate-pulse" />
+              </div>
+              <h3 className="text-lg font-semibold text-secondary-900 dark:text-white mb-2">Loading Education Data</h3>
+              <p className="text-secondary-600 dark:text-gray-300 mb-4">Please wait while we fetch your educational background...</p>
+            </div>
+            
+            {/* Loading animation */}
+            <div className="flex justify-center space-x-2">
+              <div className="w-3 h-3 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce"></div>
+              <div className="w-3 h-3 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-3 h-3 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            </div>
+            
+            <p className="text-sm text-secondary-500 dark:text-gray-400 mt-4">This may take a few moments...</p>
           </div>
         </div>
       </section>
@@ -90,7 +104,36 @@ const Education = () => {
       <section id="education" className="section-padding bg-white dark:bg-gray-900">
         <div className="container-max">
           <div className="text-center">
-            <p className="text-red-600 dark:text-red-400">Error loading education: {error}</p>
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FiAward className="text-red-600 dark:text-red-400 text-2xl" />
+              </div>
+              <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">Unable to Load Education Data</h3>
+              <p className="text-red-500 dark:text-red-400 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200"
+              >
+                Try Again
+              </button>
+            </div>
+            
+            {/* Fallback education display */}
+            <div className="text-left max-w-2xl mx-auto">
+              <h4 className="text-lg font-semibold text-secondary-900 dark:text-white mb-4">Sample Education Background:</h4>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
+                <div>
+                  <h5 className="font-medium text-secondary-900 dark:text-white">Bachelor of Science in Information Systems</h5>
+                  <p className="text-sm text-secondary-600 dark:text-gray-300">University of Rwanda • Kigali, Rwanda</p>
+                  <p className="text-xs text-secondary-500 dark:text-gray-400">2021 - 2025</p>
+                </div>
+                <div>
+                  <h5 className="font-medium text-secondary-900 dark:text-white">Bachelor of Science in Computer Science</h5>
+                  <p className="text-sm text-secondary-600 dark:text-gray-300">University of the People • Pasadena, CA, USA</p>
+                  <p className="text-xs text-secondary-500 dark:text-gray-400">2023 - Present</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

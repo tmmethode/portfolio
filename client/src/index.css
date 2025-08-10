@@ -101,6 +101,19 @@
     z-index: 0;
   }
   
+  /* Optimize mobile spacing for hero section */
+  @media (max-width: 640px) {
+    #home {
+      padding-top: 3rem !important; /* 48px */
+    }
+  }
+  
+  @media (min-width: 641px) and (max-width: 1024px) {
+    #home {
+      padding-top: 4rem !important; /* 64px */
+    }
+  }
+  
   /* Additional zoom and high-DPI handling */
   @supports (-webkit-appearance: none) {
     nav {

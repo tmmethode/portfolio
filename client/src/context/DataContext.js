@@ -194,7 +194,7 @@ export const DataProvider = ({ children }) => {
         setError('Data loading is taking longer than expected. Please refresh the page.');
         setLoading(false);
       }
-    }, 30000); // 30 second timeout
+    }, 60000); // 60 second timeout
 
     fetchAllData();
 

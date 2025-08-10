@@ -35,7 +35,7 @@ class ApiService {
     const makeRequest = async () => {
       // Add timeout to fetch request
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
       
       const response = await fetch(url, { ...config, signal: controller.signal });
       clearTimeout(timeoutId);
@@ -86,7 +86,47 @@ class ApiService {
 
   // Education API
   async getEducation() {
-    return this.request('/education');
+    try {
+      // Add extra timeout handling for education data
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout for education
+      
+      const response = await fetch(`${this.baseURL}/education`, {
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`Education API failed: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Education API Error:', error);
+      
+      if (error.name === 'AbortError') {
+        throw new Error('Education data loading timeout - please check your connection');
+      }
+      
+      // Retry once for education data
+      try {
+        console.log('Retrying education data fetch...');
+        const retryResponse = await fetch(`${this.baseURL}/education`);
+        
+        if (!retryResponse.ok) {
+          throw new Error(`Education API retry failed: ${retryResponse.status}`);
+        }
+        
+        const retryData = await retryResponse.json();
+        return retryData;
+      } catch (retryError) {
+        console.error('Education API retry failed:', retryError);
+        throw new Error('Unable to load education data. Please try again later.');
+      }
+    }
   }
 
   // Projects API
