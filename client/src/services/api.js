@@ -33,12 +33,7 @@ class ApiService {
     };
 
     const makeRequest = async () => {
-      // Add timeout to fetch request
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
-      
-      const response = await fetch(url, { ...config, signal: controller.signal });
-      clearTimeout(timeoutId);
+      const response = await fetch(url, config);
       
       const data = await response.json();
 
@@ -55,9 +50,7 @@ class ApiService {
       console.error('API Error:', error);
       
       // Provide more specific error messages
-      if (error.name === 'AbortError') {
-        throw new Error('Request timeout - please check your connection');
-      } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
         throw new Error('Network error - please check your connection');
       } else {
         throw error;
@@ -87,16 +80,9 @@ class ApiService {
   // Education API
   async getEducation() {
     try {
-      // Add extra timeout handling for education data
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout for education
-      
       const response = await fetch(`${this.baseURL}/education`, {
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal
+        headers: { 'Content-Type': 'application/json' }
       });
-      
-      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error(`Education API failed: ${response.status}`);
@@ -107,9 +93,7 @@ class ApiService {
     } catch (error) {
       console.error('Education API Error:', error);
       
-      if (error.name === 'AbortError') {
-        throw new Error('Education data loading timeout - please check your connection');
-      }
+      // Handle education data loading errors
       
       // Retry once for education data
       try {

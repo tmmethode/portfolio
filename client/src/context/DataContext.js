@@ -188,17 +188,7 @@ export const DataProvider = ({ children }) => {
 
   // Initialize data on mount
   useEffect(() => {
-    // Add timeout to prevent hanging
-    const timeoutId = setTimeout(() => {
-      if (loading) {
-        setError('Data loading is taking longer than expected. Please refresh the page.');
-        setLoading(false);
-      }
-    }, 60000); // 60 second timeout
-
     fetchAllData();
-
-    return () => clearTimeout(timeoutId);
   }, []);
 
   const value = {
