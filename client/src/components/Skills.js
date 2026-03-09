@@ -339,11 +339,10 @@ const Skills = () => {
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-3 sm:mb-4">
-              What I Do <span className="gradient-text">Best</span>
+              Technical <span className="gradient-text">Toolkit</span>
             </h2>
             <p className="text-base sm:text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-              My expertise spans across cloud infrastructure, systems administration, cybersecurity, 
-              and software development. Here's an overview of my technical capabilities.
+              A structured view of the platforms, tools, and domains I use most often across infrastructure, development, operations, and support.
             </p>
           </motion.div>
 
@@ -415,7 +414,7 @@ const Skills = () => {
                 Tools & Technologies
               </h3>
               <p className="text-sm sm:text-base text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-                Comprehensive toolkit organized by technology domains
+                Organized by domain so the stack is easier to scan
               </p>
             </div>
             

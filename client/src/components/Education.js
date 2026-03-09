@@ -156,8 +156,7 @@ const Education = () => {
               Education & <span className="gradient-text">Certifications</span>
             </h2>
             <p className="text-sm sm:text-base lg:text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
-              My academic journey and professional certifications that have shaped my expertise 
-              in technology and IT management.
+              Academic foundations and certifications that support my work in systems, cloud, security, and software delivery.
             </p>
           </motion.div>
 

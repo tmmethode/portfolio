@@ -86,7 +86,7 @@ const Experience = () => {
               Professional <span className="gradient-text">Experience</span>
             </h2>
             <p className="text-sm sm:text-base lg:text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
-              My journey through systems administration, Salesforce management, and software development with field experience in district-level support.
+              Roles that show how I support operations, improve data quality, and build dependable systems across internal tools, field work, and technical delivery.
             </p>
           </motion.div>
 

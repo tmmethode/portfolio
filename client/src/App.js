@@ -123,10 +123,10 @@ const AppContent = () => {
                 <main className="relative z-0">
                   <Hero />
                   <About />
-                  <Skills />
                   <Experience />
-                  <Education />
                   <Projects />
+                  <Skills />
+                  <Education />
                   <Contact />
                 </main>
                 <Footer />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiUser, FiMapPin, FiMail, FiPhone, FiCalendar, FiAward } from 'react-icons/fi';
+import { FiMapPin, FiMail, FiPhone, FiCalendar, FiAward, FiCheckCircle } from 'react-icons/fi';
 import { useData } from '../context/DataContext';
 
 const About = () => {
@@ -26,7 +26,6 @@ const About = () => {
   }
 
   // Use profile data from database only
-  const name = profile?.name;
   const location = profile?.location;
   const email = profile?.email;
   const phone = profile?.phone;
@@ -36,14 +35,14 @@ const About = () => {
   const keyStrengths = profile?.keyStrengths || [];
   const experience = profile?.experience;
   const certifications = profile?.certifications;
+  const focusAreas = [whatIDo, myApproach].filter(Boolean);
 
-  const personalInfo = [
-    { icon: FiUser, label: 'Name', value: name },
+  const highlights = [
     { icon: FiMapPin, label: 'Location', value: location },
-    { icon: FiMail, label: 'Email', value: email },
-    { icon: FiPhone, label: 'Phone', value: phone },
     { icon: FiCalendar, label: 'Experience', value: experience },
     { icon: FiAward, label: 'Certifications', value: certifications },
+    { icon: FiMail, label: 'Email', value: email },
+    { icon: FiPhone, label: 'Phone', value: phone },
   ];
 
   const containerVariants = {
@@ -71,94 +70,100 @@ const About = () => {
           variants={containerVariants}
           className="grid lg:grid-cols-2 gap-12 items-center"
         >
-          {/* Left Column - Image and Personal Info */}
+          {/* Left Column - Summary and Highlights */}
           <motion.div variants={itemVariants} className="space-y-8">
-            {/* Profile Image Placeholder */}
-            <div className="relative">
-                                    <div className="w-80 h-80 mx-auto bg-gradient-to-br from-primary-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">👨‍💻</div>
-                                            <p className="text-secondary-600 dark:text-gray-300 font-medium">{name}</p>
-                          <p className="text-sm text-secondary-500 dark:text-gray-400">IT Professional</p>
-                </div>
-              </div>
-
+            <div className="bg-gradient-to-br from-primary-600 to-blue-600 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+              <p className="text-sm uppercase tracking-[0.2em] text-primary-100 mb-3">Profile Overview</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+                About <span className="text-white/80">Me</span>
+              </h2>
+              <p className="text-sm sm:text-base lg:text-lg text-primary-50 leading-relaxed">
+                {summary}
+              </p>
             </div>
 
-            {/* Personal Information */}
-            <div className="bg-secondary-50 dark:bg-gray-800 rounded-xl p-4 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3 sm:mb-4">Personal Information</h3>
+            <div className="bg-secondary-50 dark:bg-gray-800 rounded-2xl p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-4">
+                Quick Highlights
+              </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {personalInfo.map((info, index) => (
+                {highlights.filter((item) => item.value).map((info) => (
                   <motion.div
                     key={info.label}
                     variants={itemVariants}
-                    className="flex items-center space-x-3"
+                    className="flex items-start space-x-3 rounded-xl bg-white dark:bg-gray-900 p-4 shadow-sm"
                   >
-                    <info.icon className="text-primary-600" size={18} />
+                    <div className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30">
+                      <info.icon className="text-primary-600 dark:text-primary-400" size={18} />
+                    </div>
                     <div>
                       <p className="text-xs sm:text-sm text-secondary-500 dark:text-gray-400">{info.label}</p>
-                      <p className="text-xs sm:text-sm font-medium text-secondary-900 dark:text-white">{info.value}</p>
+                      <p className="text-sm sm:text-base font-medium text-secondary-900 dark:text-white break-words">{info.value}</p>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
+
+            {keyStrengths.length > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-secondary-100 dark:border-gray-700">
+                <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-4">
+                  Core Strengths
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {keyStrengths.map((strength) => (
+                    <motion.div
+                      key={strength}
+                      variants={itemVariants}
+                      className="flex items-center space-x-3"
+                    >
+                      <FiCheckCircle className="text-primary-600 dark:text-primary-400 flex-shrink-0" size={16} />
+                      <span className="text-sm sm:text-base text-secondary-700 dark:text-gray-300">{strength}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
           </motion.div>
 
-          {/* Right Column - About Content */}
+          {/* Right Column - Focus Areas */}
           <motion.div variants={itemVariants} className="space-y-6">
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
-                About <span className="gradient-text">Me</span>
-              </h2>
-              <p className="text-sm sm:text-base lg:text-lg text-secondary-600 dark:text-gray-300 leading-relaxed mb-6">
-                {summary}
+            <div className="space-y-4">
+              {focusAreas.map((item, index) => (
+                <div
+                  key={index}
+                  className={`rounded-2xl p-5 sm:p-6 ${
+                    index === 0
+                      ? 'bg-primary-50 dark:bg-primary-900/20'
+                      : 'bg-secondary-50 dark:bg-gray-800'
+                  }`}
+                >
+                  <h3 className={`text-lg sm:text-xl font-semibold mb-3 ${
+                    index === 0
+                      ? 'text-primary-900 dark:text-primary-200'
+                      : 'text-secondary-900 dark:text-white'
+                  }`}>
+                    {index === 0 ? 'What I Do' : 'How I Work'}
+                  </h3>
+                  <p className={`text-sm sm:text-base leading-relaxed ${
+                    index === 0
+                      ? 'text-primary-800 dark:text-primary-300'
+                      : 'text-secondary-800 dark:text-gray-300'
+                  }`}>
+                    {item}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 shadow-sm border border-secondary-100 dark:border-gray-700">
+              <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3">
+                What You Can Expect
+              </h3>
+              <p className="text-sm sm:text-base text-secondary-700 dark:text-gray-300 leading-relaxed">
+                I focus on reliable delivery, clean communication, and practical solutions that improve operations. That includes secure infrastructure, automation where it removes repetitive work, and documentation that makes systems easier to support.
               </p>
             </div>
-
-            <div className="space-y-4">
-              <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-primary-900 dark:text-primary-200 mb-3">What I Do</h3>
-                <p className="text-sm sm:text-base text-primary-800 dark:text-primary-300 leading-relaxed">
-                  {whatIDo}
-                </p>
-              </div>
-
-              <div className="bg-secondary-50 dark:bg-gray-800 rounded-lg p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-3">My Approach</h3>
-                <p className="text-sm sm:text-base text-secondary-800 dark:text-gray-300 leading-relaxed">
-                  {myApproach}
-                </p>
-              </div>
-            </div>
-
-            {/* Key Strengths */}
-            <div>
-              <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-white mb-4">Key Strengths</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {keyStrengths.map((strength, index) => (
-                  <motion.div
-                    key={strength}
-                    variants={itemVariants}
-                    className="flex items-center space-x-2"
-                  >
-                    <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
-                    <span className="text-xs sm:text-sm text-secondary-700 dark:text-gray-300">{strength}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Download CV Button */}
-            <motion.button
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              Download Full CV
-            </motion.button>
           </motion.div>
         </motion.div>
       </div>

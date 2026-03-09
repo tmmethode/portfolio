@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowDown, FiGithub, FiLinkedin, FiMail, FiDownload } from 'react-icons/fi';
+import { FiArrowDown, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiBriefcase } from 'react-icons/fi';
 import { FaXTwitter, FaFacebook, FaDiscord } from 'react-icons/fa6';
 import { useData } from '../context/DataContext';
 
@@ -29,11 +29,22 @@ const Hero = () => {
   // Use profile data from database only
   const name = profile?.name;
   const title = profile?.title;
+  const subtitle = profile?.subtitle;
   const about = profile?.about;
+  const location = profile?.location;
+  const availability = profile?.availability;
+  const experience = profile?.experience;
+  const resume = profile?.resume;
   const socialLinks = profile?.socialLinks || {};
 
+  const heroSummary = about?.split('. ').slice(0, 2).join('. ');
+
+  const scrollToSection = (selector) => {
+    document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-                <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden w-full pt-12 sm:pt-16">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden w-full pt-12 sm:pt-16">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
       <div className="absolute inset-0 opacity-30">
@@ -73,19 +84,57 @@ const Hero = () => {
                   {title}
                 </motion.h2>
               )}
+
+              {subtitle && (
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="text-sm sm:text-base md:text-lg text-primary-700 dark:text-primary-300 font-medium"
+                >
+                  {subtitle}
+                </motion.p>
+              )}
             </div>
           )}
 
           {/* Description */}
-          {about && (
+          {heroSummary && (
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-xs sm:text-sm md:text-base lg:text-lg text-secondary-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
             >
-              {about}
+              {heroSummary}
             </motion.p>
+          )}
+
+          {(location || availability || experience) && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="flex flex-wrap justify-center gap-3 text-xs sm:text-sm text-secondary-700 dark:text-gray-200"
+            >
+              {location && (
+                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/80 dark:bg-gray-800/80 border border-secondary-200 dark:border-gray-700">
+                  <FiMapPin />
+                  {location}
+                </span>
+              )}
+              {experience && (
+                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/80 dark:bg-gray-800/80 border border-secondary-200 dark:border-gray-700">
+                  <FiBriefcase />
+                  {experience} experience
+                </span>
+              )}
+              {availability && (
+                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/80 dark:bg-gray-800/80 border border-secondary-200 dark:border-gray-700">
+                  Available: {availability}
+                </span>
+              )}
+            </motion.div>
           )}
 
           {/* Role Tags */}
@@ -120,21 +169,34 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={scrollToAbout}
+              onClick={() => scrollToSection('#projects')}
               className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-primary-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 w-full sm:w-auto"
             >
-              Learn More
+              View Projects
               <FiArrowDown className="animate-bounce-slow" />
             </motion.button>
             
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 border-2 border-primary-600 dark:border-primary-400 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 w-full sm:w-auto"
-            >
-              <FiDownload />
-              Download CV
-            </motion.button>
+            {resume ? (
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={resume}
+                className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 border-2 border-primary-600 dark:border-primary-400 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center"
+              >
+                <FiDownload />
+                Download CV
+              </motion.a>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={scrollToAbout}
+                className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 border-2 border-primary-600 dark:border-primary-400 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 w-full sm:w-auto"
+              >
+                <FiArrowDown />
+                About Me
+              </motion.button>
+            )}
           </motion.div>
 
           {/* Social Links */}

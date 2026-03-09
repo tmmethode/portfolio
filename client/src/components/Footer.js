@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FiGithub, FiLinkedin, FiMail, FiHeart, FiCode, FiServer, FiDatabase, FiCpu } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiCode, FiServer, FiDatabase, FiCpu } from 'react-icons/fi';
 import { FaXTwitter, FaFacebook, FaDiscord } from 'react-icons/fa6';
 import { useData } from '../context/DataContext';
 
@@ -11,7 +11,6 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   // Use profile data for social links and about
-  const name = profile?.name;
   const about = profile?.about;
   const email = profile?.email;
   const socialLinks = [
@@ -147,27 +146,26 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Section */}
+        {/* Closing Section */}
         <div className="border-t border-secondary-800 py-4 sm:py-6 lg:py-8">
           <div className="text-center">
-            <h3 className="text-lg sm:text-xl font-semibold mb-2">Stay Updated</h3>
+            <h3 className="text-lg sm:text-xl font-semibold mb-2">Let&apos;s Build Something Reliable</h3>
             <p className="text-secondary-300 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base">
-              Subscribe to my newsletter for the latest insights on cloud infrastructure, 
-              systems administration, cybersecurity, and technology trends.
+              The portfolio covers the work. If you want to discuss an opportunity, the fastest path is to reach out directly.
             </p>
-            <div className="grid grid-cols-1 sm:flex sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-secondary-800 border border-secondary-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white placeholder-secondary-400"
-              />
-              <motion.button
+            <div className="flex justify-center">
+              <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                href="#contact"
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection('#contact');
+                }}
                 className="px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-300"
               >
-                Subscribe
-              </motion.button>
+                Contact Me
+              </motion.a>
             </div>
           </div>
         </div>

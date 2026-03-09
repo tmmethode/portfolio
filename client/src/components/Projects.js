@@ -119,7 +119,7 @@ const Projects = () => {
               Featured <span className="gradient-text">Projects</span>
             </h2>
             <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
-              A showcase of my work across different domains, from Salesforce administration to data analysis and software development.
+              Selected work that reflects how I solve business and technical problems across automation, cloud, data, and application delivery.
             </p>
           </motion.div>
 
@@ -224,9 +224,7 @@ const Projects = () => {
                 Interested in Working Together?
               </h3>
               <p className="text-secondary-600 dark:text-gray-200 mb-6 max-w-2xl mx-auto">
-                I'm always open to discussing new opportunities and exciting projects. 
-                Whether it's infrastructure automation, software development, or data science, 
-                let's explore how we can collaborate.
+                I’m open to roles and projects where infrastructure, automation, or product delivery need clear technical ownership and steady execution.
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}

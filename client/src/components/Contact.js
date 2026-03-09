@@ -126,8 +126,7 @@ const Contact = () => {
               Get In <span className="gradient-text">Touch</span>
             </h2>
             <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto">
-              I'm always interested in new opportunities and exciting projects. 
-              Whether you have a question or just want to say hi, feel free to reach out!
+              If you’re hiring, collaborating, or need support on infrastructure and application work, send a message with the context and I’ll respond directly.
             </p>
           </motion.div>
 
@@ -135,6 +134,9 @@ const Contact = () => {
             {/* Contact Form */}
             <motion.div variants={itemVariants} className="bg-secondary-50 dark:bg-gray-800 rounded-xl p-8">
               <h3 className="text-2xl font-semibold text-secondary-900 dark:text-white mb-6">Send a Message</h3>
+              <p className="text-sm text-secondary-600 dark:text-gray-300 mb-6">
+                Include the role, project scope, or problem you need help with.
+              </p>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
