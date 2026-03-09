@@ -35,6 +35,7 @@ const About = () => {
   const keyStrengths = profile?.keyStrengths || [];
   const experience = profile?.experience;
   const certifications = profile?.certifications;
+  const avatar = profile?.avatar || '/passport.jpg';
   const focusAreas = [whatIDo, myApproach].filter(Boolean);
 
   const highlights = [
@@ -73,13 +74,22 @@ const About = () => {
           {/* Left Column - Summary and Highlights */}
           <motion.div variants={itemVariants} className="space-y-8">
             <div className="bg-gradient-to-br from-primary-600 to-blue-600 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
-              <p className="text-sm uppercase tracking-[0.2em] text-primary-100 mb-3">Profile Overview</p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-                About <span className="text-white/80">Me</span>
-              </h2>
-              <p className="text-sm sm:text-base lg:text-lg text-primary-50 leading-relaxed">
-                {summary}
-              </p>
+              <div className="flex flex-col items-center text-center">
+                <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-white/30 shadow-2xl mb-6 bg-white/10">
+                  <img
+                    src={avatar}
+                    alt="Profile portrait"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-sm uppercase tracking-[0.2em] text-primary-100 mb-3">Profile Overview</p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+                  About <span className="text-white/80">Me</span>
+                </h2>
+                <p className="text-sm sm:text-base lg:text-lg text-primary-50 leading-relaxed">
+                  {summary}
+                </p>
+              </div>
             </div>
 
             <div className="bg-secondary-50 dark:bg-gray-800 rounded-2xl p-4 sm:p-6">
